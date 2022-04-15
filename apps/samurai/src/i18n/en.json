@@ -1,0 +1,28 @@
+{
+  "OnBoarding": {
+    "one": {
+      "title": "Choose a Favourite Food",
+      "description": "When you oder Eat Steet, we’ll hook you up with exclusive coupon, specials and rewards"
+    },
+    "two": {
+      "title": "Hot Delivery to Home",
+      "description": "We make food ordering fasr, simple and free-no matter if you order online or cash"
+    },
+    "three": {
+      "title": "Receive the Great Food",
+      "description": "You’ll receive the great food within a hour. And get free delivery credits for every order."
+    },
+    "button": {
+      "skip": "Skip",
+      "next": "Next",
+      "start": "Let's Get Started"
+    }
+  },
+  "auth": {
+    "sigin": {
+      "title": "Let's Sign You In",
+      "description": "Welcome back, you've been missed!",
+      "account": "please input your email"
+    }
+  }
+}

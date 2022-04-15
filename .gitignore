@@ -7,6 +7,8 @@
 
 # dependencies
 node_modules
+apps/samurai/ios/Pods
+apps/samurai/node_modules
 
 # IDEs and editors
 /.idea
@@ -37,3 +39,19 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Expo
+node_modules/
+.expo/
+dist/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+
+apps/samurai-e2e/artifacts

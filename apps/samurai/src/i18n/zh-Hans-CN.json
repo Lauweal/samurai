@@ -1,0 +1,28 @@
+{
+  "OnBoarding": {
+    "one": {
+      "title": "选择最喜欢的食物",
+      "description": "当您订购Eat street时，我们会为您提供独家优惠券、优惠和奖励"
+    },
+    "two": {
+      "title": "配送到家",
+      "description": "无论您是在线订餐还是现金订餐，我们都让订餐变得快捷、简单和免费"
+    },
+    "three": {
+      "title": "接受美味的食物",
+      "description": "一小时内你就能吃到美味的食物。每笔订单都能获得免费送货积分"
+    },
+    "button": {
+      "skip": "跳过",
+      "next": "下一步",
+      "start": "马上开始"
+    }
+  },
+  "auth": {
+    "sigin": {
+      "title": "让我们注册",
+      "description": "欢迎回来，你错过了！",
+      "account": "请输入邮箱"
+    }
+  }
+}

@@ -1,6 +1,12 @@
 {
   "version": 2,
   "projects": {
+    "design": "libs/design",
+    "h5": "apps/h5",
+    "h5-e2e": "apps/h5-e2e",
+    "samurai": "apps/samurai",
+    "samurai-e2e": "apps/samurai-e2e",
+    "server": "apps/server",
     "web": "apps/web",
     "web-e2e": "apps/web-e2e"
   }

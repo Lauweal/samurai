@@ -1,0 +1,28 @@
+{
+  "root": "apps/h5-e2e",
+  "sourceRoot": "apps/h5-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/h5-e2e/cypress.json",
+        "devServerTarget": "h5:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "h5:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/h5-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["h5"]
+}
