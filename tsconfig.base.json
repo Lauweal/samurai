@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@samurai/bridge": ["libs/bridge/src/index.ts"],
       "@samurai/design": ["libs/design/src/index.ts"]
     }
   },

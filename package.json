@@ -35,6 +35,7 @@
     "react-native": "0.64.3",
     "react-native-gesture-handler": "2.1.0",
     "react-native-keychain": "^8.0.0",
+    "react-native-lottie-loader": "^1.0.0",
     "react-native-reanimated": "2.3.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "3.10.2",
@@ -43,6 +44,7 @@
     "react-native-svg-transformer": "1.0.0",
     "react-native-web": "0.17.5",
     "react-native-webview": "^11.18.1",
+    "react-router-dom": "^6.3.0",
     "reactotron-core-client": "^2.8.10",
     "reactotron-mst": "^3.1.4",
     "reactotron-react-js": "^3.3.7",
@@ -52,7 +54,8 @@
     "rxjs": "^7.0.0",
     "styled-components": "5.3.5",
     "tslib": "^2.0.0",
-    "validate.js": "^0.13.1"
+    "validate.js": "^0.13.1",
+    "vconsole": "^3.14.6"
   },
   "devDependencies": {
     "@nestjs/schematics": "^8.0.0",
