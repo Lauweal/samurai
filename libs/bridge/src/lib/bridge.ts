@@ -1,5 +1,6 @@
 export enum BridgeEvent {
-  RN = 'RN'
+  BACK = 'BACK',
+  OPEN_MODAL = 'OPEN_MODAL'
 }
 export enum Subscription {
   RN = 'RN'
@@ -24,3 +25,6 @@ export function subscription(event: SubscriptionType, callback: any, onec?: bool
   }
 }
 
+export function getStatusBarHeight(): number {
+  return (window as any).StatusBar || 0
+}

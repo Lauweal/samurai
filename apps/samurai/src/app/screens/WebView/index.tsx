@@ -1,13 +1,15 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from 'react'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WebView, WebViewMessageEvent } from 'react-native-webview'
 import { NavigatorParamList } from 'apps/samurai/src/navigators'
 import { Screen } from 'apps/samurai/src/components'
 import { observer } from 'mobx-react-lite'
 import LottieLoader from 'react-native-lottie-loader'
 import { StyleSheet, View, Platform } from 'react-native'
+import { getDevice } from 'react-native-device-info'
 import { palette } from '@samurai/design'
-import { Subscription, SubscriptionType } from '@samurai/bridge'
+import { BridgeEvent, Subscription, SubscriptionType } from '@samurai/bridge'
 
 
 const styles = StyleSheet.create({
@@ -35,27 +37,27 @@ const styles = StyleSheet.create({
 
 export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = observer(function WebBox({ navigation, route }) {
   const web = useRef<WebView>()
+  const inset = useSafeAreaInsets()
   const [loading, setLoading] = useState(false)
 
-  const renderLoading = useMemo(() => {
-    return () => {
-      console.log(loading);
-      return (
-        <LottieLoader
-          visible={loading}
-          autoSize
-          animationType="fade"
-          speed={1}
-          style={styles.mask}
-          source={require('./loading.json')}
-        />
-      )
-    }
+  const renderLoading = useCallback(() => {
+    console.log(loading);
+    return (
+      <LottieLoader
+        visible={loading}
+        autoSize
+        animationType="fade"
+        speed={3}
+        style={styles.mask}
+        source={require('./loading.json')}
+      />
+    )
   }, [loading])
 
   const jsCode = `
     (function(){
       window.isRN = true;
+      window.StatusBar = ${inset.top >= 30 ? inset.top - 15 : inset.top};
       window.bridge = function(method, payload) {
         const time = new Date().getTime();
         return new Promise((res) => {
@@ -104,11 +106,12 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
           }
         })
       }
-      const back = window.history.back
-      window.history.back = function() {
+      const go = window.history.go
+      window.history.go = (a) => {
         if (!window.history.state || !window.history.state.key) {
-          window.bridge('back').then((res) => { console.log(res) })
-          console.log('1')
+          window.bridge('BACK')
+        } else {
+          go.call(window.history,a)
         }
       }
 
@@ -119,13 +122,13 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
     if (web.current) {
       web.current.injectJavaScript(`window.${event}(${JSON.stringify({ event, method, payload })})`)
     }
-    if (method == 'back') {
+    if (method == BridgeEvent.BACK) {
       navigation.goBack();
       setLoading(false);
-      // (web.current as any).clearCache();
-      // (web.current as any).clearHistory();
-      // (web.current as any).componentWillUnmount();
-      // (web.current as any) = null
+    }
+
+    if (method === BridgeEvent.OPEN_MODAL) {
+
     }
   }
 
@@ -150,27 +153,20 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
   return (
     <Screen unsafe>
       <View style={styles.webviewBox}>
-        {loading && (<LottieLoader
-          visible={loading}
-          autoSize
-          animationType="fade"
-          speed={1}
-          style={styles.mask}
-          source={require('./loading.json')}
-        />)}
         <WebView
           ref={web as any}
           style={styles.webview}
           injectedJavaScript={jsCode}
+          javaScriptEnabled={true}
+          originWhitelist={['https://*', 'git://*', 'http://*']}
           onMessage={onMessage}
           onLoadStart={() => { setLoading(true) }}
           onLoadEnd={() => {
             setLoading(false)
-            console.log('end')
           }}
           source={{ uri: 'http://127.0.0.1:4200' }}
-        // renderLoading={renderLoading}
-        // startInLoadingState
+          renderLoading={renderLoading}
+          startInLoadingState
         />
       </View>
     </Screen>

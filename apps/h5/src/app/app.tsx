@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Home } from './conatiners/home'
-import { We } from './conatiners/we'
-import NxWelcome from './nx-welcome';
+import home from 'apps/h5/src/app/conatiners/Home/router'
+import user from 'apps/h5/src/app/conatiners/User/router'
+import { Navigator } from '../navigators';
 
 const StyledApp = styled.div`
   // Your style here
@@ -11,13 +10,7 @@ const StyledApp = styled.div`
 export function App() {
   return (
     <StyledApp>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/we' element={<We />} />
-        </Routes>
-      </BrowserRouter>
-      {/* <NxWelcome title="h5" /> */}
+      <Navigator config={[...home, ...user]} />
     </StyledApp>
   );
 }

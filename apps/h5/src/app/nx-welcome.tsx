@@ -5,14 +5,7 @@
  Delete this file and get started with your project!
  * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
-import { call, subscription } from '@samurai/bridge'
 export function NxWelcome({ title }: { title: string }) {
-  call('RN', { a: 1 }).then((res) => {
-    //console.log(res)
-  })
-  subscription('RN', (a: any) => {
-    console.log(a)
-  })
   return (
     <>
       <style

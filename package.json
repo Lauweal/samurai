@@ -13,6 +13,7 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@radix-ui/react-icons": "^1.1.0",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
@@ -33,6 +34,7 @@
     "react-dom": "18.0.0",
     "react-is": "18.0.0",
     "react-native": "0.64.3",
+    "react-native-device-info": "^8.7.0",
     "react-native-gesture-handler": "2.1.0",
     "react-native-keychain": "^8.0.0",
     "react-native-lottie-loader": "^1.0.0",
@@ -108,6 +110,7 @@
     "react-test-renderer": "18.0.0",
     "ts-jest": "27.0.5",
     "tsconfig-paths-webpack-plugin": "3.5.2",
-    "typescript": "~4.6.2"
+    "typescript": "~4.6.2",
+    "webpack-merge": "^5.8.0"
   }
 }
