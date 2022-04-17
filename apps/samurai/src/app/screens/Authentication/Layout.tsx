@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     color: palette.text_2,
     marginTop: sizes.base,
   },
+  content: {
+    paddingLeft: sizes.spacing_12,
+    paddingRight: sizes.spacing_12,
+  }
 });
 
 export function AuthLayout(props: Props) {
@@ -40,7 +44,9 @@ export function AuthLayout(props: Props) {
         <Text style={[styles.title, fonts.h2]}>{props.title}</Text>
         <Text style={[styles.subtitle, fonts.body3]}>{props.subtitle}</Text>
       </View>
-      {props.children}
+      <View style={styles.content}>
+        {props.children}
+      </View>
     </Screen>
   );
 }

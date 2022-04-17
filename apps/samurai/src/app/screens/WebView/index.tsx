@@ -10,6 +10,7 @@ import { StyleSheet, View, Platform } from 'react-native'
 import { getDevice } from 'react-native-device-info'
 import { palette } from '@samurai/design'
 import { BridgeEvent, Subscription, SubscriptionType } from '@samurai/bridge'
+import { initialJsCode } from './initial';
 
 
 const styles = StyleSheet.create({
@@ -41,82 +42,19 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
   const [loading, setLoading] = useState(false)
 
   const renderLoading = useCallback(() => {
-    console.log(loading);
     return (
       <LottieLoader
-        visible={loading}
+        visible
         autoSize
+        animationStyle={{ width: 150, height: 150 }}
         animationType="fade"
-        speed={3}
+        speed={1}
         style={styles.mask}
         source={require('./loading.json')}
       />
     )
   }, [loading])
 
-  const jsCode = `
-    (function(){
-      window.isRN = true;
-      window.StatusBar = ${inset.top >= 30 ? inset.top - 15 : inset.top};
-      window.bridge = function(method, payload) {
-        const time = new Date().getTime();
-        return new Promise((res) => {
-          window[method + '_' + time] = function(data) {
-            res(data)
-            window[method + '_' + time] = null
-          }
-          window.ReactNativeWebView.postMessage(JSON.stringify(
-            {
-              event: method + '_' + time,
-              method,
-              payload
-            }
-          ))
-        });
-      };
-
-      window.subscriptionEvents = {}
-
-      if(${JSON.stringify(Platform.OS)} === 'ios') {
-        window.addEventListener("message", function(events) {
-          if(typeof events.data == 'string' && events.data.includes('event') && events.data.includes('payload')) {
-            const {event, payload} = JSON.parse(events.data);
-            Object.keys(window.subscriptionEvents).map((e) => {
-              if(e.includes(event)) {
-                window.subscriptionEvents[e]({ event:e, method:event,  payload })
-                if (e.includes('onec') && e.includes(event)) {
-                  delete window.subscriptionEvents[e]
-                }
-              }
-            })
-          }
-        })
-      } else {
-        document.addEventListener("message", function(events) {
-          if(typeof events.data == 'string' && events.data.includes('event') && events.data.includes('payload')) {
-            const {event, payload} = JSON.parse(events.data);
-            Object.keys(window.subscriptionEvents).map((e) => {
-              if(e.includes(event)) {
-                window.subscriptionEvents[e]({ event:e,method:event, payload })
-                if (e.includes('onec') && e.includes(event)) {
-                  delete window.subscriptionEvents[e]
-                }
-              }
-            })
-          }
-        })
-      }
-      const go = window.history.go
-      window.history.go = (a) => {
-        if (!window.history.state || !window.history.state.key) {
-          window.bridge('BACK')
-        } else {
-          go.call(window.history,a)
-        }
-      }
-
-    })();
-  `
   const onMessage = (events: WebViewMessageEvent) => {
     const { event, method, payload } = JSON.parse(events.nativeEvent.data)
     if (web.current) {
@@ -156,7 +94,7 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
         <WebView
           ref={web as any}
           style={styles.webview}
-          injectedJavaScript={jsCode}
+          injectedJavaScript={initialJsCode(inset)}
           javaScriptEnabled={true}
           originWhitelist={['https://*', 'git://*', 'http://*']}
           onMessage={onMessage}

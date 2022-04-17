@@ -25,8 +25,8 @@ export function MainLayout() {
   return (
     <Layout top={getStatusBarHeight()}>
       <Navigator>
-        <CaretLeftIcon color={palette.fill_2} width={30} height={30} onClick={() => navigate(-1)} />
-        <MagnifyingGlassIcon color={palette.fill_2} width={26} height={26} onClick={() => navigate(-1)} />
+        <CaretLeftIcon stroke={palette.primary} width={30} height={30} onClick={() => navigate(-1)} />
+        <MagnifyingGlassIcon stroke={palette.primary} width={26} height={26} onClick={() => navigate(-1)} />
       </Navigator>
       <Content >
         <Outlet />
