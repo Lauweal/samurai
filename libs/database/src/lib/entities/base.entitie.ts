@@ -1,12 +1,12 @@
-import { PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, Timestamp, UpdateDateColumn } from 'typeorm';
 
 export class BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @Column({ type: 'time', default: () => Date.now() })
-  // createDate: Date
+  @CreateDateColumn()
+  createDate: Timestamp
 
-  // @Column({ type: 'time', default: () => Date.now() })
-  // updateDate: Date
+  @UpdateDateColumn()
+  updateDate: Timestamp
 }

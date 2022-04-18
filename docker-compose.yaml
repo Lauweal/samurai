@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  master:
+    image: redis
+    container_name: redis-master
+    restart: always
+    command: redis-server --port 6379 --requirepass test@dbuser2018  --appendonly yes
+    ports:
+      - 6379:6379
+
+  db:
+    image: mysql
+    container_name: db
+    restart: always
+    volumes:
+      - ./db/mysql:/docker-entrypoint-initdb.d
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=123456'
+      - 'MYSQL_DATABASE=psyduck'
+      - 'MYSQL_USER=lemonpai'
+      - 'MYSQL_PASSWORD=123456'
+    ports:
+      - 3306:3306

@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RedisModule } from 'nestjs-redis';
 import { DatabaseModule } from '@samurai/database';
 import { resolve } from 'path';
+import { useRedisFactory } from '../redis/redis.service'
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 @Module({
@@ -11,7 +13,12 @@ import { AppService } from './app.service';
       ignoreEnvFile: false,
       isGlobal: true,
     }),
-    DatabaseModule.forRootAsync()
+    // DatabaseModule.forRootAsync(),
+    RedisModule.forRootAsync({
+      useFactory: () => {
+        return []
+      },
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

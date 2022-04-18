@@ -9,6 +9,7 @@
 node_modules
 apps/samurai/ios/Pods
 apps/samurai/node_modules
+db/postgres/data
 
 # IDEs and editors
 /.idea
