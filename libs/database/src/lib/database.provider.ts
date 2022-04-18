@@ -8,7 +8,6 @@ import { Account } from './entities'
 export class DatabaseService implements TypeOrmOptionsFactory {
   constructor(private readonly config: ConfigService) { }
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    console.log((this.config.get('REDIS_HOST') as string).split(','))
     return {
       type: 'mysql',
       host: this.config.get('DB_HOST'),
