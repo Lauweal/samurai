@@ -2,9 +2,12 @@
   "version": 2,
   "projects": {
     "bridge": "libs/bridge",
+    "database": "libs/database",
     "design": "libs/design",
     "h5": "apps/h5",
     "h5-e2e": "apps/h5-e2e",
+    "interfaces": "libs/interfaces",
+    "models": "libs/models",
     "samurai": "apps/samurai",
     "samurai-e2e": "apps/samurai-e2e",
     "server": "apps/server",

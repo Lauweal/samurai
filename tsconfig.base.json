@@ -16,7 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@samurai/bridge": ["libs/bridge/src/index.ts"],
-      "@samurai/design": ["libs/design/src/index.ts"]
+      "@samurai/database": ["libs/database/src/index.ts"],
+      "@samurai/design": ["libs/design/src/index.ts"],
+      "@samurai/interfaces": ["libs/interfaces/src/index.ts"],
+      "@samurai/models": ["libs/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

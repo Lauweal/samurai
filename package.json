@@ -11,8 +11,10 @@
   "dependencies": {
     "@expo/metro-config": "0.3.10",
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^1.1.6",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/typeorm": "^8.0.3",
     "@radix-ui/react-icons": "^1.1.0",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-navigation/native": "^6.0.10",
@@ -57,6 +59,7 @@
     "rxjs": "^7.0.0",
     "styled-components": "5.3.5",
     "tslib": "^2.0.0",
+    "typeorm": "^0.2.45",
     "validate.js": "^0.13.1",
     "vconsole": "^3.14.6"
   },
