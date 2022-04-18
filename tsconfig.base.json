@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@samurai/bridge": ["libs/bridge/src/index.ts"],
+      "@samurai/common": ["libs/common/src/index.ts"],
       "@samurai/database": ["libs/database/src/index.ts"],
       "@samurai/design": ["libs/design/src/index.ts"],
       "@samurai/interfaces": ["libs/interfaces/src/index.ts"],

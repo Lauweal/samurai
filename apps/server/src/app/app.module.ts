@@ -1,30 +1,44 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from '@samurai/database';
+import { RedisModule } from '@samurai/redis';
 import { resolve } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: resolve(process.cwd(), 'apps/server', `${process.env.NODE_ENV}.env`),
+      envFilePath: resolve(
+        process.cwd(),
+        'apps/server',
+        `${process.env.NODE_ENV}.env`
+      ),
       ignoreEnvFile: false,
       isGlobal: true,
     }),
-    // RedisModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: () => [{
-    //     name: 'cache',
-    //     host: '127.0.0.1',
-    //     port: 6379,
-    //     password: 'test@dbuser2018',
-    //     db: 0
-    //   }],
-    //   inject: [ConfigService]
-    // }),
-    DatabaseModule.forRootAsync()
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: any) => {
+        return [
+          {
+            name: 'cache',
+            port: Number(config.get('CACHE_PORT')),
+            host: config.get('CACHE_HOST'),
+            password: config.get('CACHE_PASSWORD'),
+            db: Number(config.get('CACHE_DB')),
+          },
+          {
+            name: 'session',
+            port: Number(config.get('CACHE_PORT')),
+            host: config.get('CACHE_HOST'),
+            password: config.get('CACHE_PASSWORD'),
+            db: Number(config.get('SESSION_DB')),
+          },
+        ];
+      },
+      inject: [ConfigService],
+    }),
+    DatabaseModule.forRootAsync(),
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule { }

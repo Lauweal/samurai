@@ -5,8 +5,8 @@ export class BaseEntity {
   id: string;
 
   @CreateDateColumn()
-  createDate: Timestamp
+  createDate?: Timestamp
 
   @UpdateDateColumn()
-  updateDate: Timestamp
+  updateDate?: Timestamp
 }
