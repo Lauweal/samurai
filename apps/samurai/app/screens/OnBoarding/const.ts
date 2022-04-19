@@ -1,4 +1,4 @@
-import { translate } from 'apps/samurai/src/i18n';
+import { translate } from 'apps/samurai/app/i18n';
 import { IProcessItem } from './components';
 
 export const onBoardingScreens: IProcessItem[] = [

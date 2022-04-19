@@ -15,3 +15,9 @@ export class AccountDto implements IAccount {
   @IsNotEmpty({ message: '密码不能为空' })
   password!: string;
 }
+
+export class QueryAccountDto implements Partial<IAccount> {
+  @IsNotEmpty({ message: '账号不能为空' })
+  @IsEmail({ message: '请输入正确的邮箱' })
+  account!: string;
+}

@@ -6,8 +6,8 @@ import {
   DarkTheme,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { OnBoarding, WebBox } from '../app/screens';
-import { Sigin } from '../app/screens/Authentication';
+import { OnBoarding, WebBox } from '../screens';
+import { Sigin } from '../screens/Authentication';
 import { navigationRef } from './navigation-utilities';
 import { useStores } from '../models';
 

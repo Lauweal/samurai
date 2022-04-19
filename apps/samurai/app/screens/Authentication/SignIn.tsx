@@ -1,9 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { NavigatorParamList } from 'apps/samurai/src/navigators';
-import { translate } from 'apps/samurai/src/i18n';
+import { NavigatorParamList } from 'apps/samurai/app/navigators';
+import { translate } from 'apps/samurai/app/i18n';
 import { observer } from 'mobx-react-lite';
 import React, { FC } from 'react';
-import { Button, Input } from 'apps/samurai/src/components';
+import { Button, Input } from 'apps/samurai/app/components';
 import { AuthLayout } from './Layout';
 import { Image } from 'react-native';
 

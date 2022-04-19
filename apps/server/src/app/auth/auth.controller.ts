@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { Request as IRequest } from 'express';
 import { AuthService, SessionGuard } from '@samurai/common';
 import { AuthGuard } from '@nestjs/passport';
 import { promisify } from 'util';
-import { AccountDto } from '@samurai/models';
+import { QueryAccountDto } from '@samurai/models';
 
 @Controller('auth')
 export class AuthController {
@@ -31,11 +31,20 @@ export class AuthController {
   }
 
   @Get('checkAccount')
-  async checkAccount() { }
+  async checkAccount(@Query() query: QueryAccountDto) {
+    const { account } = query
+    return await this.auth.validateAccount(account).then((ac) => !ac)
+  }
 
   @Post('sigin')
-  async sigin(@Body() body: AccountDto) {
-    return this.auth.sigin(body.account, body.password);
+  @UseGuards(AuthGuard('local'))
+  async sigin(@Request() req: IRequest) {
+    if (!req.user) {
+      req.logout();
+    } else {
+      await promisify(req.login.bind(req))(req.user);
+    }
+    return this.auth.login(req.user);
   }
 
   @Get('reloadToken')

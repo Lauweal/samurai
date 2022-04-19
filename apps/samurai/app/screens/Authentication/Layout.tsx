@@ -1,6 +1,6 @@
 import { palette, sizes, fonts } from '@samurai/design';
 import { Dimensions } from 'react-native';
-import { Screen } from 'apps/samurai/src/components'
+import { Screen } from 'apps/samurai/app/components'
 import React from 'react';
 import { View, StyleSheet, Image, ViewStyle, Text } from 'react-native';
 import { imagesAssets } from '@samurai/design';

@@ -3,17 +3,17 @@ import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
-import * as storage from 'apps/samurai/src/utils/storage';
+import * as storage from 'apps/samurai/app/utils/storage';
 import * as Font from 'expo-font';
 import {
   AppNavigator,
   useNavigationPersistence,
-} from 'apps/samurai/src/navigators';
+} from 'apps/samurai/app/navigators';
 import {
   RootStore,
   RootStoreProvider,
   setupRootStore,
-} from 'apps/samurai/src/models';
+} from 'apps/samurai/app/models';
 import { fontsAssets } from '@samurai/design';
 
 export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE';

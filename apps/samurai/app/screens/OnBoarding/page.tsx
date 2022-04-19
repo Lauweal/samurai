@@ -2,11 +2,11 @@ import { observer } from 'mobx-react-lite';
 import React, { FC } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { palette, sizes } from '@samurai/design';
-import { Screen, Button } from 'apps/samurai/src/components';
+import { Screen, Button } from 'apps/samurai/app/components';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Process } from './components';
-import { translate } from 'apps/samurai/src/i18n';
-import { NavigatorParamList } from 'apps/samurai/src/navigators';
+import { translate } from 'apps/samurai/app/i18n';
+import { NavigatorParamList } from 'apps/samurai/app/navigators';
 import { onBoardingScreens } from './const';
 
 const styles = StyleSheet.create({
