@@ -4,7 +4,7 @@ import { BaseEntity } from "./base.entitie";
 
 
 @Entity()
-export class Account extends BaseEntity implements IUserInfo {
+export class User extends BaseEntity implements IUserInfo {
   @Column()
   name: string;
   six: number;

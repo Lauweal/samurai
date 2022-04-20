@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
-import { Account } from './entities'
+import { Account, User } from './entities'
 
 
 @Injectable()
@@ -17,7 +17,7 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       database: this.config.get('DB_NAME'),
       synchronize: true,
       // logging: this.config.get('DB_ENV') === 'development',
-      entities: [Account],
+      entities: [Account, User],
       migrations: [(__dirname + '/migrations/**/*{.ts,.js}') as string],
       extra: {
         max: this.config.get('DB_MAX_CONNECTIONS'),

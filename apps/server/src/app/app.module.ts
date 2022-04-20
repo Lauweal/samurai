@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from '@samurai/modules'
+import { resolve } from 'path';
+import { RedisModule } from '@samurai/redis';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from '@samurai/database';
-import { RedisModule } from '@samurai/redis';
-import { resolve } from 'path';
-import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({

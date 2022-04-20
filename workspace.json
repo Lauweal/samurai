@@ -9,6 +9,7 @@
     "h5-e2e": "apps/h5-e2e",
     "interfaces": "libs/interfaces",
     "models": "libs/models",
+    "modules": "libs/modules",
     "redis": "libs/redis",
     "samurai": "apps/samurai",
     "samurai-e2e": "apps/samurai-e2e",

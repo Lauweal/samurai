@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
-import { Request as IRequest } from 'express';
-import { AuthService, SessionGuard } from '@samurai/common';
 import { AuthGuard } from '@nestjs/passport';
-import { promisify } from 'util';
+import { SessionGuard } from '@samurai/common';
 import { QueryAccountDto } from '@samurai/models';
+import { promisify } from 'util';
+import { Request as IRequest } from 'express';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {

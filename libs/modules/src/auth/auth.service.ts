@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { JwtService } from '@nestjs/jwt';
-import { Account } from '@samurai/database'
-import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Account } from '@samurai/database';
+import { Repository } from 'typeorm';
 import * as CryptoJS from 'crypto-js';
 
 @Injectable()
