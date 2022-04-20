@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Account } from '@samurai/database';
 import { Repository } from 'typeorm';
 import * as CryptoJS from 'crypto-js';
+import { IAccount } from '@samurai/interfaces';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,12 @@ export class AuthService {
     account.account = _account;
     account.password = this.encrypt(_password);
     return this.repo.save(account);
+  }
+
+  /** 更新账号 */
+  async updateAccount(params: Partial<IAccount>) {
+    const { account, ...payload } = params
+    return this.repo.update(payload, { account })
   }
 
   encrypt(source: string) {
