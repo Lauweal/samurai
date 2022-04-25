@@ -19,6 +19,9 @@ jobs:
       - name: use npm (8)
         run: npm install -g npm
 
+      - name: use npm nx
+        run: npm install -g nx
+
       - uses: actions/checkout@v1
 
       - name: cache
@@ -27,13 +30,14 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-packages-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-packages-${{ env.cache-name }}-
+            ${{ runner.os }}-packages-
             ${{ runner.os }}-
 
       - name: install
+        if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm install --force
 
       - name: npm bulid h5
