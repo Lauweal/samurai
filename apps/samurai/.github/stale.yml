@@ -1,0 +1,16 @@
+daysUntilStale: 15
+daysUntilClose: 10
+exemptLabels:
+  - dev: high priority
+  - topic: feature request
+  - issue: need verification
+  - issue: bug
+  - dev: discuss
+markComment: >
+  你好朋友 👋🏼!！
+
+  这个问题已经已经很久不活动了😶。
+
+  我考虑暂时先关闭当前的问题，如果需要请联系（lemonpaimc@126.com）进行重开
+
+closeComment: true
