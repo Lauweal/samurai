@@ -42,6 +42,45 @@
         }
       }
     },
+    "build-test": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/h5",
+        "index": "apps/h5/src/index.html",
+        "baseHref": "/samurai",
+        "main": "apps/h5/src/main.tsx",
+        "polyfills": "apps/h5/src/polyfills.ts",
+        "tsConfig": "apps/h5/tsconfig.app.json",
+        "assets": [
+          "apps/h5/src/favicon.ico",
+          "apps/h5/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "apps/h5/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/h5/src/environments/environment.ts",
+              "with": "apps/h5/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
     "serve": {
       "executor": "@nrwl/web:dev-server",
       "options": {

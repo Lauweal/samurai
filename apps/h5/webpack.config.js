@@ -2,6 +2,7 @@ const getWebpackConfig = require('@nrwl/react/plugins/webpack')
 const { merge } = require('webpack-merge');
 
 module.exports = (config, context) => {
+  console.log(context)
   return merge(getWebpackConfig(config), {
     module: {
       rules: [
