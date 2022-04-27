@@ -41,7 +41,7 @@ jobs:
         run: npm install --force
 
       - name: npm bulid h5
-        run: nx run h5:build-test
+        run: nx run h5:build --filename=samurai
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
