@@ -1,6 +1,6 @@
 {
   "root": "apps/samurai",
-  "sourceRoot": "apps/samurai/src",
+  "sourceRoot": "apps/samurai/app",
   "projectType": "application",
   "targets": {
     "start": {
@@ -72,14 +72,20 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/samurai/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": [
+          "apps/samurai/**/*.{ts,tsx,js,jsx}"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/samurai"],
+      "outputs": [
+        "coverage/apps/samurai"
+      ],
       "options": {
         "jestConfig": "apps/samurai/jest.config.js",
         "passWithNoTests": true

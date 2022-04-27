@@ -22,7 +22,8 @@
     "sigin": {
       "title": "Let's Sign You In",
       "description": "Welcome back, you've been missed!",
-      "account": "please input your email"
+      "account": "please input your email",
+      "submit": "submit"
     }
   }
 }

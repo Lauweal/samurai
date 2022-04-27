@@ -23,11 +23,11 @@ interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> { }
 
 export const AppNavigator = (props: NavigationProps) => {
-  const colorScheme = useColorScheme();
+  //const colorScheme = useColorScheme();
   return (
     <NavigationContainer
       ref={navigationRef}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      // theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
       {...props}
     >
       <Stack.Navigator

@@ -11,4 +11,6 @@ export interface InputProps {
   prefix?: React.ReactElement;
   suffix?: React.ReactElement;
   placeholder?: string;
+  value?: string;
+  onChange?: (...args: any) => void
 }

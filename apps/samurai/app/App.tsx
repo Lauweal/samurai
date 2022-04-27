@@ -15,6 +15,7 @@ import {
   setupRootStore,
 } from 'apps/samurai/app/models';
 import { fontsAssets } from '@samurai/design';
+import { Notification } from './components';
 
 export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
@@ -35,10 +36,12 @@ export default function App() {
   return (
     <RootStoreProvider value={rootStore}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <AppNavigator
-          initialState={initialNavigationState}
-          onStateChange={onNavigationStateChange}
-        />
+        <Notification>
+          <AppNavigator
+            initialState={initialNavigationState}
+            onStateChange={onNavigationStateChange}
+          />
+        </Notification>
       </SafeAreaProvider>
     </RootStoreProvider>
   );

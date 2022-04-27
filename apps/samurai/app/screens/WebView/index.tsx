@@ -5,8 +5,8 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview'
 import { NavigatorParamList } from 'apps/samurai/app/navigators'
 import { Screen } from 'apps/samurai/app/components'
 import { observer } from 'mobx-react-lite'
-import LottieLoader from 'react-native-animated-loader'
-import { StyleSheet, View, Platform } from 'react-native'
+import LottieLoader from 'lottie-react-native'
+import { StyleSheet, View, Platform, Animated, Easing } from 'react-native'
 import { getDevice } from 'react-native-device-info'
 import { palette } from '@samurai/design'
 import { BridgeEvent, Subscription, SubscriptionType } from '@samurai/bridge'
@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: palette.bg
   },
+  loader: {
+    width: 100,
+    height: 100
+  },
   webview: {
     flex: 1,
     backgroundColor: palette.bg
@@ -39,23 +43,37 @@ const styles = StyleSheet.create({
 export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = observer(function WebBox({ navigation, route }) {
   const web = useRef<WebView>()
   const inset = useSafeAreaInsets()
-  const loadingIntance = useRef()
+  const progress = useRef(new Animated.Value(0))
+  const animated = useRef(Animated.loop(Animated.timing(progress.current, {
+    toValue: 1,
+    duration: 2000,
+    delay: 0,
+    easing: Easing.linear,
+  })))
   const [loading, setLoading] = useState(false)
 
   const renderLoading = useCallback(() => {
     return (
-      <LottieLoader
-        ref={loadingIntance}
-        visible={loading}
-        autoSize
-        animationStyle={{ width: 150, height: 150 }}
-        animationType="fade"
-        speed={1}
-        style={styles.mask}
-        source={require('./loading.json')}
-      />
+      <View style={styles.mask}>
+        <LottieLoader
+          autoPlay
+          loop
+          speed={1}
+          progress={progress.current}
+          style={styles.loader}
+          source={require('./loading.json')}
+        />
+      </View>
     )
   }, [loading])
+
+  const startAnimation = () => {
+    animated.current.start();
+  }
+
+  const stopAnimation = () => {
+    animated.current.stop();
+  }
 
   const onMessage = (events: WebViewMessageEvent) => {
     const { event, method, payload } = JSON.parse(events.nativeEvent.data)
@@ -63,8 +81,8 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
       web.current.injectJavaScript(`window.${event}(${JSON.stringify({ event, method, payload })})`)
     }
     if (method == BridgeEvent.BACK) {
-      navigation.goBack();
       setLoading(false);
+      navigation.pop();
     }
 
     if (method === BridgeEvent.OPEN_MODAL) {
@@ -83,13 +101,14 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
 
   useEffect(() => {
     return () => {
+      stopAnimation();
       (web.current as any).clearCache();
       (web.current as any).clearHistory();
       (web.current as any).componentWillUnmount();
       (web.current as any) = null;
     }
   }, [])
-
+  console.log(loading)
   return (
     <Screen unsafe>
       <View style={styles.webviewBox}>
@@ -100,11 +119,9 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
           javaScriptEnabled={true}
           originWhitelist={['https://*', 'git://*', 'http://*']}
           onMessage={onMessage}
-          onLoadStart={() => { setLoading(true) }}
-          onLoadEnd={() => {
-            setLoading(false)
-          }}
           source={{ uri: 'http://192.168.2.3:4200' }}
+          onLoadStart={startAnimation}
+          onLoadEnd={stopAnimation}
           renderLoading={renderLoading}
           startInLoadingState
         />

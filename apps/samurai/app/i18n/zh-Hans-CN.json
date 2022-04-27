@@ -20,9 +20,10 @@
   },
   "auth": {
     "sigin": {
-      "title": "让我们注册",
+      "title": "请注册",
       "description": "欢迎回来，你错过了！",
-      "account": "请输入邮箱"
+      "account": "请输入邮箱",
+      "submit": "注册"
     }
   }
 }

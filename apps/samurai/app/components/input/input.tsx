@@ -27,13 +27,13 @@ const styles = StyleSheet.create({
 });
 
 export function Input(props: InputProps) {
-  const { type = 'text', placeholder = '请输入', suffix, prefix } = props;
+  const { type = 'text', placeholder = '请输入', suffix, prefix, value, onChange = () => { } } = props;
 
   return (
     <ShadowBoxView
       style={styles.inputBox}
       shadowBoxStyle={{
-        shadowColor: '#000',
+        shadowColor: '#fff',
         shadowOpacity: 0.04,
         shadowOffset: {
           width: 0,
@@ -47,6 +47,8 @@ export function Input(props: InputProps) {
         placeholder={placeholder}
         style={[styles.input, fonts.h3]}
         secureTextEntry={type === 'password'}
+        onChangeText={onChange}
+        value={value}
       />
       {isValidElement(suffix) && <View style={styles.suffix}>{suffix}</View>}
     </ShadowBoxView>

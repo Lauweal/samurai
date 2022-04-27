@@ -15,9 +15,9 @@ interface Props {
 }
 
 const styles = StyleSheet.create({
-  logoContainer: { alignItems: 'center' },
+  logoContainer: { alignItems: 'center', marginTop: sizes.spacing_32 },
   logoImage: { height: 100, width: 200 },
-  titleContainer: { marginTop: height > 800 ? sizes.spacing_24 : 0 },
+  titleContainer: { marginTop: height > 800 ? sizes.spacing_12 : 0, marginBottom: sizes.spacing_32 },
   title: { textAlign: 'center' },
   subtitle: {
     textAlign: 'center',
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     marginTop: sizes.base,
   },
   content: {
+    alignItems: 'center',
     paddingLeft: sizes.spacing_12,
     paddingRight: sizes.spacing_12,
   }
