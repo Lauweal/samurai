@@ -43,6 +43,9 @@ jobs:
       - name: npm bulid h5
         run: nx run h5:build --filename=samurai
 
+      - name: mv
+        run: mv ./dist/apps/h5/samurai ./dist/apps/h5
+
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.ref == 'refs/heads/test/h5' }}
