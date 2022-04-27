@@ -11,7 +11,7 @@ module.exports = (config, context) => {
   })
   return merge(getWebpackConfig(config), {
     output: {
-      path:`${context.options.outputPath}/${context.options.filename}`
+      filename: `${context.options.filename}/[name].[hash].js`,
     },
     module: {
       rules: [
