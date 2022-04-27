@@ -5,7 +5,7 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview'
 import { NavigatorParamList } from 'apps/samurai/app/navigators'
 import { Screen } from 'apps/samurai/app/components'
 import { observer } from 'mobx-react-lite'
-import LottieLoader from 'react-native-lottie-loader'
+import LottieLoader from 'react-native-animated-loader'
 import { StyleSheet, View, Platform } from 'react-native'
 import { getDevice } from 'react-native-device-info'
 import { palette } from '@samurai/design'
@@ -39,12 +39,14 @@ const styles = StyleSheet.create({
 export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = observer(function WebBox({ navigation, route }) {
   const web = useRef<WebView>()
   const inset = useSafeAreaInsets()
+  const loadingIntance = useRef()
   const [loading, setLoading] = useState(false)
 
   const renderLoading = useCallback(() => {
     return (
       <LottieLoader
-        visible
+        ref={loadingIntance}
+        visible={loading}
         autoSize
         animationStyle={{ width: 150, height: 150 }}
         animationType="fade"
@@ -84,7 +86,7 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
       (web.current as any).clearCache();
       (web.current as any).clearHistory();
       (web.current as any).componentWillUnmount();
-      (web.current as any) = null
+      (web.current as any) = null;
     }
   }, [])
 
@@ -102,7 +104,7 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
           onLoadEnd={() => {
             setLoading(false)
           }}
-          source={{ uri: 'http://127.0.0.1:4200' }}
+          source={{ uri: 'http://192.168.2.3:4200' }}
           renderLoading={renderLoading}
           startInLoadingState
         />
