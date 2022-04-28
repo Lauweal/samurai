@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     margin: sizes.spacing_12,
     backgroundColor: palette.bg,
     borderWidth: 1,
-    borderRadius: sizes.radius_8,
+    borderRadius: sizes.radius_12,
     borderColor: palette.border,
   },
   input: {
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
   },
   prefix: {
-    marginRight: sizes.spacing_8,
+    marginRight: sizes.radius_12,
   },
   suffix: {},
 });
@@ -39,7 +39,7 @@ export function Input(props: InputProps) {
           width: 0,
           height: 0,
         },
-        shadowRadius: 5,
+        shadowRadius: sizes.radius_full,
       }}
     >
       {isValidElement(prefix) && <View style={styles.prefix}>{prefix}</View>}

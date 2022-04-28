@@ -16,10 +16,10 @@ export class AuthService {
     private readonly config: ConfigService
   ) { }
 
-  async validateUser(account: string, password: string): Promise<any> {
+  async validateUser(account: string): Promise<any> {
     const user = await this.repo.findOne({
-      where: { account, password: this.encrypt(password) },
-      select: ['account', 'id', 'phone', 'email'],
+      where: { account },
+      select: ['account', 'id', 'phone', 'email', 'password'],
     });
     if (user) return user;
     return null;

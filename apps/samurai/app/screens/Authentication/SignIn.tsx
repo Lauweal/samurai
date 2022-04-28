@@ -10,6 +10,7 @@ import { sizes } from '@samurai/design';
 import * as Yup from 'yup';
 import { IAccount } from '@samurai/interfaces';
 import { AuthLayout } from './Layout';
+import { useStores } from 'apps/samurai/app/models';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,9 +20,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   button: {
-    height: 50,
-    width: '90%',
-    borderRadius: sizes.radius_12,
+    height: 80,
+    width: 80,
+    borderRadius: sizes.radius_full,
   },
 });
 
@@ -33,6 +34,7 @@ const SignupSchema = Yup.object().shape({
 export const Sigin: FC<NativeStackScreenProps<NavigatorParamList, 'Sigin'>> =
   observer(function Sigin({ navigation }) {
     const notification = useContext(NotificationContext)
+    const { account } = useStores()
     const { errors, values, handleChange, handleSubmit } = useFormik<IAccount>({
       initialValues: {
         account: '',
@@ -41,9 +43,13 @@ export const Sigin: FC<NativeStackScreenProps<NavigatorParamList, 'Sigin'>> =
       validateOnBlur: false,
       validateOnChange: false,
       validationSchema: SignupSchema,
-      onSubmit: (a, v) => {
-        console.log(a, v)
-        notification.dispatch({ type: '1' })
+      onSubmit: (a) => {
+        account.login(a).then((token) => {
+          navigation.push('WebBox', { token })
+        }).catch((e) => {
+          notification.dispatch({ type: '1' })
+        })
+        // notification.dispatch({ type: '1' })
       }
     })
 
@@ -59,7 +65,7 @@ export const Sigin: FC<NativeStackScreenProps<NavigatorParamList, 'Sigin'>> =
         <Input placeholder={translate('auth.sigin.account') as string} value={values.account} onChange={handleChange('account')} />
         <Input type='password' placeholder={translate('auth.sigin.account') as string} value={values.password} onChange={handleChange('password')} />
         <View style={styles.container}>
-          <Button buttonContainerStyle={styles.button} label={translate('auth.sigin.submit')} onPress={() => { notification.dispatch({ type: '1' }) }} />
+          <Button buttonContainerStyle={styles.button} label={translate('auth.sigin.submit') as string} onPress={handleSubmit as any} />
         </View>
       </AuthLayout>
     );

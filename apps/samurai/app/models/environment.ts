@@ -1,6 +1,7 @@
+import { environment } from 'apps/samurai/app/environments/environment'
 import { Api } from '../services/api';
 
-let ReactotronDev: new () => any;
+let ReactotronDev: any;
 if (__DEV__) {
   const { Reactotron } = require('../services/reactotron');
   ReactotronDev = Reactotron;
@@ -17,7 +18,8 @@ export class Environment {
       // dev-only services
       this.reactotron = new ReactotronDev();
     }
-    this.api = new Api();
+
+    this.api = new Api({ url: environment.baseUrl, timeout: 5000 });
   }
 
   async setup() {

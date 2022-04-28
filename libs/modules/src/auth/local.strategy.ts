@@ -21,11 +21,14 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     _password: string
   ): Promise<ISession> {
     const { platform, fingerprint } = req.headers;
-    let account = await this.authService.validateUser(_account, _password);
+    let account = await this.authService.validateUser(_account);
+    console.log(account, req.path.includes('sigin'))
     if (req.path.includes('sigin') && !account) {
       account = await this.authService.sigin(_account, _password)
+      return { account, platform, fingerprint };
     }
-    if (req.path.includes('login') && !account) throw new HttpException('登录失败', HttpStatus.UNAUTHORIZED);
-    return { account, platform, fingerprint };
+    if (req.path.includes('login') && (!account || this.authService.decrypt(account.password) !== _password)) throw new HttpException('登录失败', HttpStatus.UNAUTHORIZED);
+    if (req.path.includes('login') && this.authService.decrypt(account.password) === _password) return { account, platform, fingerprint };
+    return null
   }
 }

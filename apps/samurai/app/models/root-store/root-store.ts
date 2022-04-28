@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from 'mobx-state-tree';
+import { AccountModel } from '../account/account'
 // import { CharacterStoreModel } from "../character-store/character-store"
 // import { AccountModel } from '../account/account'
 // import { UserModel } from '../user/user'
@@ -10,6 +11,7 @@ import { Instance, SnapshotOut, types } from 'mobx-state-tree';
  */
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
+  account: types.optional(AccountModel, {}),
   // zoneStore: types.optional(ZoneStoreModel, {} as any),
   // characterStore: types.optional(CharacterStoreModel, {}),
   // account: types.optional(AccountModel, { id: 1 }),
@@ -20,9 +22,9 @@ export const RootStoreModel = types.model("RootStore").props({
 /**
  * The RootStore instance.
  */
-export interface RootStore extends Instance<typeof RootStoreModel> {}
+export interface RootStore extends Instance<typeof RootStoreModel> { }
 
 /**
  * The data of a RootStore.
  */
-export interface RootStoreSnapshot extends SnapshotOut<typeof RootStoreModel> {}
+export interface RootStoreSnapshot extends SnapshotOut<typeof RootStoreModel> { }

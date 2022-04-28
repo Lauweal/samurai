@@ -14,7 +14,7 @@ import { useStores } from '../models';
 export type NavigatorParamList = {
   OnBoarding: undefined;
   Sigin: undefined;
-  WebBox: { uri: string }
+  WebBox: { uri?: string, token?: string }
 };
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
