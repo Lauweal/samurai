@@ -52,6 +52,7 @@ export function Input(props: InputProps) {
           secureTextEntry={type === 'password'}
           keyboardType={type === 'password' ? 'default' : type as any}
           autoCompleteType="off"
+          textContentType={type === 'password' ? 'newPassword' : 'none'}
           autoCapitalize="none"
           maxLength={maxLength}
           onChangeText={(text) => onChange(text)}

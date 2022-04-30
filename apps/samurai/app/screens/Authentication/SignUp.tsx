@@ -90,7 +90,7 @@ export const SignUp: FC<NativeStackScreenProps<NavigatorParamList, 'SignUp'>> =
       , [values, errors])
 
     useEffect(() => {
-      console.log(errors)
+      // console.log(errors)
     }, [errors])
 
     const goLoginPage = () => {

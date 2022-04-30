@@ -17,5 +17,6 @@ export const imagesAssets = {
 
 export const iconsAssets = {
   eye_close: require('../assets/icons/eye_close.png'),
-  eye: require('../assets/icons/eye.png')
+  eye: require('../assets/icons/eye.png'),
+  cancel: require('../assets/icons/cancel.png')
 }

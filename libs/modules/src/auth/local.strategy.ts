@@ -22,7 +22,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   ): Promise<ISession> {
     const { platform, fingerprint } = req.headers;
     let account = await this.authService.validateUser(_account);
-    console.log(account, req.path.includes('sigin'))
+
     if (req.path.includes('sigin') && !account) {
       account = await this.authService.sigin(_account, _password)
       return { account, platform, fingerprint };

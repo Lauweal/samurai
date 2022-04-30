@@ -43,7 +43,7 @@ export function Switch(props: SwitchProps) {
     onChange = () => { },
     value
   } = props
-  console.log(value)
+
   const onPress = useCallback((e: any) => {
     onChange(Object.assign(e, { target: { ...e.target, type: 'checkbox', checked: !value } }))
   }, [value])

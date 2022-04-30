@@ -45,7 +45,9 @@
     "lottie-react-native": "*",
     "react-native-device-info": "*",
     "@types/crypto-js": "*",
-    "expo-blur": "*"
+    "expo-blur": "*",
+    "sentry-expo": "*",
+    "@types/react": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && cp package-lock.json ./apps/samurai/ && mv ./apps/samurai/eas.js ./index.js",

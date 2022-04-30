@@ -2,9 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { NavigatorParamList } from 'apps/samurai/app/navigators';
 import { translate } from 'apps/samurai/app/i18n';
 import { observer } from 'mobx-react-lite';
-import React, { FC, useContext, useEffect, useMemo } from 'react';
+import React, { FC, useContext, useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik'
-import { Button, Input, Switch } from 'apps/samurai/app/components';
+import { Button, Input, Switch, Icons } from 'apps/samurai/app/components';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import { fonts, palette, sizes, iconsAssets } from '@samurai/design';
 import * as Yup from 'yup';
@@ -62,7 +62,8 @@ export const SignIn: FC<NativeStackScreenProps<NavigatorParamList, 'SignIn'>> =
   observer(function SignIn({ navigation }) {
 
     const { account } = useStores()
-    const { errors, values, handleChange, handleSubmit } = useFormik<IAccountParams>({
+    const [showPassword, setShowPassword] = useState(false)
+    const { errors, values, handleChange, handleSubmit, handleReset, setValues } = useFormik<IAccountParams>({
       initialValues: {
         account: '',
         password: '',
@@ -89,8 +90,20 @@ export const SignIn: FC<NativeStackScreenProps<NavigatorParamList, 'SignIn'>> =
       console.log(errors)
     }, [errors])
 
+    useEffect(() => {
+      console.log(values)
+    }, [values.account])
+
     const goLoginPage = () => {
       navigation.replace('SignUp')
+    }
+
+    const cancel = (_key: keyof IAccountParams) => {
+      setValues(Object.entries(values).reduce((a: any, b: any) => {
+        const [key, value] = b
+        if (key !== _key) { a[key] = value }
+        return a;
+      }, {}))
     }
 
     return (
@@ -105,27 +118,16 @@ export const SignIn: FC<NativeStackScreenProps<NavigatorParamList, 'SignIn'>> =
           placeholder={translate('auth.sign-in.account') as string}
           value={values.account}
           onChange={handleChange('account') as any}
+          suffix={<Icons icon={!!errors.account && !!values.account ? 'cancel' : 'eye_close'} onPress={() => cancel('account')} />}
         />
         <Input
           containerStyle={{ marginTop: sizes.spacing_16 }}
-          type='password'
+          type={!showPassword ? 'password' : 'default'}
           label={translate('auth.sign-in.passwordLabel') as string}
           placeholder={translate('auth.sign-in.password') as string}
           value={values.password}
           onChange={handleChange('password') as any}
-          suffix={
-            <TouchableOpacity style={{
-              width: 40,
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-            }}>
-              <Image source={iconsAssets.eye} style={{
-                height: 20,
-                width: 20,
-                tintColor: palette.text_3
-              }} />
-            </TouchableOpacity>
-          }
+          suffix={<Icons icon={!showPassword ? 'eye' : 'eye_close'} onPress={() => setShowPassword(!showPassword)} />}
         />
         <View style={styles.saveBox}>
           <View style={styles.saveButton}>
