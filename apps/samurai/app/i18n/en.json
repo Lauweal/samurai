@@ -19,11 +19,49 @@
     }
   },
   "auth": {
-    "sigin": {
-      "title": "Let's Sign You In",
-      "description": "Welcome back, you've been missed!",
+    "sign-up": {
+      "title": "Let's Sign You Up",
+      "description": "Welcome to Soratani, start your wonderful life!",
       "account": "please input your email",
-      "submit": "submit"
+      "accountLabel": "Email",
+      "password": "please input your password",
+      "passwordLabel": "Password",
+      "affirm-password": "please input your password",
+      "affirm-passwordLabel": "Affirm Password",
+      "saveMe": "Save Me",
+      "forgot": "Forgot Password?",
+      "submit": "Sign Up",
+      "loginLabel": "Already have an account?",
+      "loginTitle": "Sigin In",
+      "verification": {
+        "account": "Please enter the correct email address"
+      },
+      "required-verification": {
+        "account": "Please enter email address",
+        "password": "Please enter your password"
+      }
+    },
+    "sign-in": {
+      "title": "Let's Sign You In",
+      "description": "Welcome to Soratani, start your wonderful life!",
+      "account": "please input your email",
+      "accountLabel": "Email",
+      "password": "please input your password",
+      "passwordLabel": "Password",
+      "affirm-password": "please input your password",
+      "affirm-passwordLabel": "Affirm Password",
+      "saveMe": "Save Me",
+      "forgot": "Forgot Password?",
+      "submit": "Sign In",
+      "loginLabel": "Don't have an account?",
+      "loginTitle": "Sigin Up",
+      "verification": {
+        "account": "Please enter the correct email address"
+      },
+      "required-verification": {
+        "account": "Please enter email address",
+        "password": "Please enter your password"
+      }
     }
   }
 }

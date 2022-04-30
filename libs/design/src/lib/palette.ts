@@ -1,4 +1,5 @@
 export const palette = {
+  transparent: 'transparent',
   primary: '#0f54ff',
   primary_hover: '#0062d6',
   primary_active: '#004fb3',

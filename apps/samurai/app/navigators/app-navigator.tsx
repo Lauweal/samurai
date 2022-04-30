@@ -6,14 +6,14 @@ import {
   DarkTheme,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { OnBoarding, WebBox } from '../screens';
-import { Sigin } from '../screens/Authentication';
+import { OnBoarding, WebBox, SignUp, SignIn } from '../screens';
 import { navigationRef } from './navigation-utilities';
 import { useStores } from '../models';
 
 export type NavigatorParamList = {
   OnBoarding: undefined;
-  Sigin: undefined;
+  SignUp: undefined;
+  SignIn: undefined;
   WebBox: { uri?: string, token?: string }
 };
 
@@ -23,7 +23,7 @@ interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> { }
 
 export const AppNavigator = (props: NavigationProps) => {
-  //const colorScheme = useColorScheme();
+  // const colorScheme = useColorScheme();
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -35,8 +35,9 @@ export const AppNavigator = (props: NavigationProps) => {
         initialRouteName={'OnBoarding'}
       >
         <Stack.Screen name="OnBoarding" component={OnBoarding} />
-        <Stack.Screen name="Sigin" component={Sigin} />
+        <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name='WebBox' component={WebBox} />
+        <Stack.Screen name="SignIn" component={SignIn} />
       </Stack.Navigator>
     </NavigationContainer>
   );

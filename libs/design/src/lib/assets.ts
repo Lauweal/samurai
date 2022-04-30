@@ -14,3 +14,8 @@ export const imagesAssets = {
   logo_02: require('../assets/images/logo_02.png'),
   logo: require('../assets/images/icon.png'),
 }
+
+export const iconsAssets = {
+  eye_close: require('../assets/icons/eye_close.png'),
+  eye: require('../assets/icons/eye.png')
+}

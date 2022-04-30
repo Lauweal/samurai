@@ -50,7 +50,7 @@ export const OnBoarding: FC<
                 label={translate('OnBoarding.button.skip') as string}
                 buttonContainerStyle={styles.skipButton}
                 labelStyle={styles.skipLabel}
-                onPress={() => navigation.replace('Sigin')}
+                onPress={() => navigation.replace('SignUp')}
               />
               <Button
                 label={translate('OnBoarding.button.next') as string}
@@ -63,7 +63,7 @@ export const OnBoarding: FC<
               <Button
                 label={translate('OnBoarding.button.start') as string}
                 buttonContainerStyle={styles.startButton}
-                onPress={() => navigation.replace('Sigin')}
+                onPress={() => navigation.replace('SignUp')}
               />
             </View>
           );

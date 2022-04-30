@@ -5,6 +5,21 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "plugins": [
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "samurais",
+            "project": "samurai-app",
+            "authToken": "8eb22aa6babf46788eed2f84494c2a3aeb0801686fa94c35b0a20f0732b8fb09"
+          }
+        }
+      ]
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

@@ -1,57 +1,64 @@
 import React, { isValidElement } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Dimensions } from 'react-native';
 import { ShadowBoxView } from '../shadow';
 import { sizes, palette, fonts } from '@samurai/design';
 import { InputProps } from './input.props';
 
+
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   inputBox: {
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    padding: sizes.spacing_12,
-    margin: sizes.spacing_12,
-    backgroundColor: palette.bg,
-    borderWidth: 1,
+    height: height > 800 ? 55 : 45,
+    paddingHorizontal: sizes.spacing_24,
+    marginTop: height > 800 ? sizes.spacing_8 : 0,
+    backgroundColor: palette.tertiary_light_default,
     borderRadius: sizes.radius_12,
-    borderColor: palette.border,
   },
-  input: {
-    flex: 1,
-    letterSpacing: 1.5,
+  label: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  prefix: {
-    marginRight: sizes.radius_12,
-  },
-  suffix: {},
 });
 
 export function Input(props: InputProps) {
-  const { type = 'text', placeholder = '请输入', suffix, prefix, value, onChange = () => { } } = props;
-
+  const {
+    label = "",
+    errorMsg = "",
+    containerStyle,
+    inputContainerStyle = {},
+    inputStyle = {},
+    type = 'text',
+    placeholder = '请输入',
+    maxLength,
+    suffix,
+    prefix,
+    value,
+    onChange = () => { }
+  } = props;
   return (
-    <ShadowBoxView
-      style={styles.inputBox}
-      shadowBoxStyle={{
-        shadowColor: '#fff',
-        shadowOpacity: 0.04,
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-        shadowRadius: sizes.radius_full,
-      }}
-    >
-      {isValidElement(prefix) && <View style={styles.prefix}>{prefix}</View>}
-      <TextInput
-        placeholder={placeholder}
-        style={[styles.input, fonts.h3]}
-        secureTextEntry={type === 'password'}
-        onChangeText={onChange}
-        value={value}
-      />
-      {isValidElement(suffix) && <View style={styles.suffix}>{suffix}</View>}
-    </ShadowBoxView>
+    <View style={{ ...containerStyle }}>
+      <View style={styles.label}>
+        <Text style={{ color: palette.text_2, ...fonts.body4 }}>{label}</Text>
+        <Text style={{ color: palette.danger, ...fonts.body4 }}>{errorMsg}</Text>
+      </View>
+      <View style={[styles.inputBox, inputContainerStyle]}>
+        {isValidElement(prefix) && prefix}
+        <TextInput
+          style={{ flex: 1, letterSpacing: 1.4, fontWeight: "500", ...inputStyle }}
+          value={value}
+          placeholder={placeholder}
+          placeholderTextColor={palette.text_2}
+          secureTextEntry={type === 'password'}
+          keyboardType={type === 'password' ? 'default' : type as any}
+          autoCompleteType="off"
+          autoCapitalize="none"
+          maxLength={maxLength}
+          onChangeText={(text) => onChange(text)}
+        />
+        {isValidElement(suffix) && suffix}
+      </View>
+    </View>
   );
 }
 
