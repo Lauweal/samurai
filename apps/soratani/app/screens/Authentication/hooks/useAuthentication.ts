@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigation, CommonActions } from '@react-navigation/native';
 
-export type IAuthenticationService<S = any> = (params: S) => Promise<string>
+export type IAuthenticationService<S = any> = (params: S) => Promise<string | null | undefined>
 
 export function useAuthentication<S = any>(
   _defaultValue: S,

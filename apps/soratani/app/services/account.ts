@@ -15,12 +15,18 @@ export class AccountApi {
 
   async login(account: IAccount) {
     return await this.api.post<string>('/api/auth/login', account).catch((e) => {
-      Sentry.Browser.captureException('登录异常', e)
       return null;
     })
   }
 
   async hasAccount(account: string) {
     return await this.api.get<boolean>('/api/auth/hasAccount', { account })
+  }
+
+  async reloadToken() {
+    return await this.api.get<string>('/api/auth/reloadToken').catch((e) => {
+      Sentry.Browser.captureException('获取token异常', e)
+      return null;
+    })
   }
 }

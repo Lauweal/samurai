@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useEffect } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { WebView } from 'react-native-webview'
 import { NavigatorParamList } from 'apps/soratani/app/navigators'
@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite'
 import LottieLoader from 'lottie-react-native'
 import { StyleSheet, View } from 'react-native'
 import { palette } from '@samurai/design'
+import { useStores } from 'apps/soratani/app/models'
 import { environment } from 'apps/soratani/app/environments/environment';
 import { useWebView } from './useWebview';
 
@@ -40,6 +41,11 @@ const styles = StyleSheet.create({
 
 export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = observer(function WebBox(props) {
   const { web, progress, code, startAnimation, stopAnimation, call, onMessage, } = useWebView(props)
+  const { account } = useStores()
+
+  useEffect(() => {
+    account.reloadToken()
+  }, [])
 
   const renderLoading = useCallback(() => {
     return (

@@ -19,6 +19,7 @@ export const AccountModel = types
   .views((self) => ({}))
   .actions((self) => ({
     saveToken(token: string) {
+      console.log('token ===', token)
       if (token) {
         self.token = token
       }
@@ -36,7 +37,10 @@ export const AccountModel = types
       },
       hasAccount: debounce(async (account: string) => {
         return await api.hasAccount(account)
-      }, 300)
+      }, 300),
+      reloadToken: () => {
+        return api.reloadToken().then(self.saveToken as any)
+      }
     }
   }) // eslint-disable-line @typescript-eslint/no-unused-vars
 

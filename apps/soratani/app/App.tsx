@@ -17,13 +17,12 @@ import {
 } from 'apps/soratani/app/models';
 import { fontsAssets } from '@samurai/design';
 import * as Sentry from 'sentry-expo'
-import { BrowserTracing } from '@sentry/tracing'
 import { Notification } from './components';
 
 const routingInstrumentation = new Sentry.Native.ReactNavigationInstrumentation()
 Sentry.init({
   enabled: true,
-  dsn: 'https://e0ea571cf0c0461d81c7697e5a60f21f@o937351.ingest.sentry.io/6378325',
+  dsn: 'https://e7e1134d699047119148c47074e715dc@o937351.ingest.sentry.io/6378982',
   enableInExpoDevelopment: true,
   enableNativeNagger: true,
   debug: true,
@@ -31,19 +30,14 @@ Sentry.init({
   maxCacheItems: 40,
   tracesSampleRate: 1.0,
   enableAutoSessionTracking: true,
-  sessionTrackingIntervalMillis: 5000,
   attachStacktrace: true,
   integrations: [
-    new BrowserTracing({
-      tracingOrigins: ['localhost', /^\//, /^http:\/\//],
-    }),
     new Sentry.Native.ReactNativeTracing({
       enableAppStartTracking: true,
       enableNativeFramesTracking: true,
       enableStallTracking: true,
-      idleTimeout: 5000,
       routingInstrumentation,
-      tracingOrigins: ['localhost', /^\//, /^http:\/\//],
+      tracingOrigins: ['localhost', 'http://192.168.2.3:3333', /^\//, /^http:\/\//],
     })
   ]
 })

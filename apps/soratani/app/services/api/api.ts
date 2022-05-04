@@ -1,8 +1,7 @@
-import { ApisauceInstance, create, ApiResponse, ApisauceConfig } from 'apisauce';
-import { getGeneralApiProblem } from './api-problem';
+import { ApisauceInstance, create, ApisauceConfig } from 'apisauce';
 import * as Sentry from 'sentry-expo'
 import { ApiConfig, DEFAULT_API_CONFIG } from './api-config';
-import * as Types from './api.types';
+import { Transaction } from '@sentry/types';
 
 /**
  * Manages all requests to the API.
@@ -20,6 +19,7 @@ export class Api {
    * Configurable options.
    */
   private config: ApiConfig;
+  private transaction!: Transaction;
 
   /**
    * Creates the api.
@@ -39,47 +39,62 @@ export class Api {
    */
   setup() {
     // construct the apisauce instance
-    this.apisauce = create({
-      baseURL: this.config.url,
-      timeout: this.config.timeout,
-      headers: {
-        Accept: 'application/json',
-      },
-    });
-    this.apisauce.addRequestTransform((requet) => {
-      const transaction = Sentry.Browser.startTransaction({
-        name: 'http.client',
-        op: 'http.client',
-        description: "setup form",
-      })
-      transaction.spanId = '123123'
-      transaction.setTag("baseUrl", this.config.url)
-      transaction.setTag('path', requet.url)
-      transaction.setTag('method', requet.method)
-      transaction.setData('body', requet.data)
-      transaction.sampled = true
-      transaction.startTimestamp
-      transaction.setHttpStatus
+    this.apisauce =
+      this.apisauce = create({
+        baseURL: this.config.url,
+        timeout: this.config.timeout,
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+    this.transaction = Sentry.Browser.startTransaction({
+      name: 'http.client',
     })
+    Sentry.Browser.getCurrentHub().configureScope(scope => scope.setSpan(this.transaction))
   }
 
   get<R = any>(url: string, params?: Record<string, any>, config?: ApisauceConfig) {
+    const requestSpan = this.transaction.startChild({
+      op: 'http.request',
+      description: `GET ${url}`
+    })
+    requestSpan.setTag("http.method", 'GET');
+    requestSpan.setData('query', params);
     return this.apisauce.get<R | null>(url, params, config).then((value) => {
-      if (value.ok) {
-        return value.data
-      }
-      return null
-    }).catch((e) => null)
-  }
-
-  post<R = any>(url: string, params?: Record<string, any>, config?: ApisauceConfig) {
-    return this.apisauce.post<R | null>(url, params, config).then((value) => {
+      requestSpan.setData("response", value.data);
+      requestSpan.setTag("http.status", value.status);
+      requestSpan.finish()
+      this.transaction.finish();
       if (value.ok) {
         return value.data
       }
       return null
     }).catch((e) => {
+      requestSpan.finish();
+      this.transaction.finish()
+    })
+  }
+
+  post<R = any>(url: string, params?: Record<string, any>, config?: ApisauceConfig) {
+    const requestSpan = this.transaction.startChild({
+      op: 'http.request',
+      description: `POST ${url}`
+    })
+    requestSpan.setTag("http.method", 'POST');
+    requestSpan.setData('body', params);
+    return this.apisauce.post<R | null>(url, params, config).then((value) => {
+      console.log(value)
+      requestSpan.setData("response", value.data);
+      requestSpan.setTag("http.status", value.status);
+      requestSpan.finish()
+      this.transaction.finish()
+      if (value.ok) {
+        return value.data
+      }
       return null
+    }).catch((e) => {
+      requestSpan.finish()
+      this.transaction.finish()
     })
   }
 }
