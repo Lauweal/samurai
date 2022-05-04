@@ -6,7 +6,7 @@ name: samurais
 
 inputs:
   src:
-    src: ./
+    src: ./dist/apps/server
     exclude:
       - .env
 
