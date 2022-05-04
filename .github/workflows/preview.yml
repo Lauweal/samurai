@@ -1,10 +1,13 @@
+name: preview
+
 on:
   push:
     branches:
       - "staging/*"
 
 jobs:
-  build:
+  preview:
+    name: preview
     runs-on: macos-latest
     steps:
       - name: 🏗 Setup repo
@@ -59,3 +62,40 @@ jobs:
           channel-id: C03DY3QTBTQ
           slack-message: 'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.projectLink }}'
 
+  serverless:
+    name: serverless
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone local repository
+        uses: actions/checkout@v2
+
+      - name: install serverless
+        run: npm install -g serverless
+
+
+      - name: cache
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: install dependency
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
+      - name: build server
+        run: npm run build:server
+
+      - name: deploy serverless
+        run: sls deploy
+        env:
+          STAGE: test
+          SERVERLESS_PLATFORM_VENDOR: tencent
+          TENCENT_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
