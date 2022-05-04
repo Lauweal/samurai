@@ -40,12 +40,13 @@ jobs:
         run: npm install --force
 
       - name: 🚀 Publish preview
-        run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_PROJECT=${{secrets.SENTRY_PROJECT}} && export SENTRY_AUTH=${{secrets.SENTRY_AUTH_TOKEN}} && npm run preview:app
+        run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run preview:app
 
       - name: 👷 Create preview comment
         uses: expo/expo-github-action/preview-comment@v7
         id: preview
         with:
+          project: ./apps/soratani
           comment: false
           channel: staging
 

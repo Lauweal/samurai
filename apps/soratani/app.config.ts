@@ -17,8 +17,8 @@ export default {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
             "organization": process.env.SENTRY_ORG,
-            "project": process.env.SENTRY_PROJECT,
-            "authToken": process.env.SENTRY_AUTH_TOKEN
+            "project": process.env.SENTRY_APP_PROJECT,
+            "authToken": process.env.SENTRY_APP_AUTH_TOKEN
           }
         }
       ],
@@ -27,8 +27,8 @@ export default {
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
             "organization": process.env.SENTRY_ORG,
-            "project": process.env.SENTRY_PROJECT,
-            "authToken": process.env.SENTRY_AUTH_TOKEN
+            "project": process.env.SENTRY_APP_PROJECT,
+            "authToken": process.env.SENTRY_APP_AUTH_TOKEN
           }
         }
       ]
