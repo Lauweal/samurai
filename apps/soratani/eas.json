@@ -1,17 +1,18 @@
 {
   "build": {
     "production": {
+      "releaseChannel": "production",
       "android": {
         "buildType": "app-bundle"
       }
     },
     "development": {
       "android": {
-        "developmentClient": true,
-        "distribution": "internal"
+        "developmentClient": true
       }
     },
     "preview": {
+      "releaseChannel": "staging",
       "ios": {
         "simulator": true
       },

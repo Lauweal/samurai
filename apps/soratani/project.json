@@ -36,12 +36,14 @@
     },
     "build-ios": {
       "executor": "@nrwl/expo:build-ios",
-      "options": {}
+      "options": {
+        "releaseChannel": "production"
+      }
     },
-    "build-ios-test": {
+    "build-ios-preview": {
       "executor": "@nrwl/expo:build-ios",
       "options": {
-        "releaseChannel": "test"
+        "releaseChannel": "staging"
       }
     },
     "build-android": {
@@ -68,10 +70,10 @@
       "executor": "@nrwl/expo:publish",
       "options": {}
     },
-    "publish-test": {
-      "executor": "@nrwl/expo:publish-set",
+    "publish-preview": {
+      "executor": "@nrwl/expo:publish",
       "options": {
-        "releaseChannel": "test"
+        "releaseChannel": "staging"
       }
     },
     "publish-set": {

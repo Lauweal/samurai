@@ -7,6 +7,7 @@ export default {
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "platforms": ["ios", "android"],
     "plugins": [
       "sentry-expo"
     ],

@@ -19,17 +19,20 @@ export const AccountModel = types
   .views((self) => ({}))
   .actions((self) => ({
     saveToken(token: string) {
-      self.token = token
+      if (token) {
+        self.token = token
+      }
+      return token
     }
   }))
   .actions((self) => {
     const api = new AccountApi(self.environment.api as any)
     return {
       login: async (account: IAccount) => {
-        return await api.login(account).then(self.saveToken as any).catch((e) => Sentry.Native.captureException('登录失败', e))
+        return await api.login(account).then(self.saveToken as any)
       },
       sigin: async (account: IAccount) => {
-        return await api.sigin(account).then(self.saveToken as any).catch((e) => Sentry.Native.captureException('注册失败', e))
+        return await api.sigin(account).then(self.saveToken as any)
       },
       hasAccount: debounce(async (account: string) => {
         return await api.hasAccount(account)
