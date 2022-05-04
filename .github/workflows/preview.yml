@@ -29,10 +29,10 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ./node_modules
-          key: ${{ runner.os }}-packages-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-packages-${{ env.cache-name }}-
-            ${{ runner.os }}-packages-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
             ${{ runner.os }}-
 
       - name: 📦 Install dependencies
@@ -40,7 +40,7 @@ jobs:
         run: npm install --force
 
       - name: 🚀 Publish preview
-        run: npm run preview:app
+        run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_PROJECT=${{secrets.SENTRY_PROJECT}} && export SENTRY_AUTH=${{secrets.SENTRY_AUTH_TOKEN}} && npm run preview:app
 
       - name: 👷 Create preview comment
         uses: expo/expo-github-action/preview-comment@v7
@@ -56,5 +56,5 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           channel-id: C03DY3QTBTQ
-          slack-message: 'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.projectQR }}'
+          slack-message: 'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.projectLink }}'
 
