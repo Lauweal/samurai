@@ -43,7 +43,8 @@
     "build-ios-preview": {
       "executor": "@nrwl/expo:build-ios",
       "options": {
-        "releaseChannel": "staging"
+        "releaseChannel": "staging",
+        "type": "simulator"
       }
     },
     "build-android": {
