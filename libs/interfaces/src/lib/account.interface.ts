@@ -3,6 +3,7 @@ export interface IAccount {
   password: string;
   phone?: string;
   email?: string;
+  save?: boolean
 }
 
 

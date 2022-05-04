@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { SessionGuard } from '@samurai/common';
 import { QueryAccountDto } from '@samurai/models';
 import { promisify } from 'util';
 import { Request as IRequest } from 'express';
 import { AuthService } from './auth.service';
+import { IAccount } from '@samurai/interfaces';
 
 @Controller('auth')
 export class AuthController {
@@ -12,10 +13,11 @@ export class AuthController {
   }
   @Post('login')
   @UseGuards(AuthGuard('local'))
-  async login(@Request() req: IRequest) {
+  async login(@Request() req: IRequest, @Body() body: IAccount) {
     if (!req.user) {
       req.logout();
-    } else {
+    }
+    if (body.save) {
       await promisify(req.login.bind(req))(req.user);
     }
     return this.auth.login(req.user);
@@ -44,10 +46,11 @@ export class AuthController {
 
   @Post('sigin')
   @UseGuards(AuthGuard('local'))
-  async sigin(@Request() req: IRequest) {
+  async sigin(@Request() req: IRequest, @Body() body: IAccount) {
     if (!req.user) {
       req.logout();
-    } else {
+    }
+    if (body.save) {
       await promisify(req.login.bind(req))(req.user);
     }
     return this.auth.login(req.user);

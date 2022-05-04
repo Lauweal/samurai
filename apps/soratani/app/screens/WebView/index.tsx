@@ -56,7 +56,7 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
     )
   }, [progress.current])
   return (
-    <Screen unsafe>
+    <Screen unsafe preset="fixed">
       <View style={styles.webviewBox}>
         <WebView
           ref={web as any}

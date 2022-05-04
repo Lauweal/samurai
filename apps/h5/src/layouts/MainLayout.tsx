@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom'
-import { palette } from '@samurai/design'
+import { palette, sizes } from '@samurai/design'
 import { CaretLeftIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { getStatusBarHeight } from '@samurai/bridge'
 import Navigator from 'apps/h5/src/components/navigator/navigator'
@@ -17,7 +17,8 @@ const Layout = styled.div<{ top: number }>`
 
 const Content = styled.div`
   flex: 1;
-  background-color: #fff;
+  padding: ${sizes.spacing_8}px;
+  background-color: ${palette.bg};
 `
 
 export function MainLayout() {

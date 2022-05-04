@@ -49,13 +49,13 @@ export class AuthService {
   encrypt(source: string) {
     const key = CryptoJS.enc.Utf8.parse(this.config.get('KEY') as string);
     const iv = CryptoJS.enc.Utf8.parse(this.config.get('IV') as string);
-    return CryptoJS.AES.encrypt(source, key, { iv }).toString().toUpperCase();
+    return CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(source), key, { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).ciphertext.toString().toUpperCase();
   }
 
   decrypt(source: string) {
     const key = CryptoJS.enc.Utf8.parse(this.config.get('KEY') as string);
     const iv = CryptoJS.enc.Utf8.parse(this.config.get('IV') as string);
-    const code = CryptoJS.AES.decrypt(source, key, { iv })
-    return CryptoJS.enc.Utf8.stringify(code).toString()
+    const code = CryptoJS.AES.decrypt(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Hex.parse(source)), key, { iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString(CryptoJS.enc.Utf8);
+    return code.toString()
   }
 }
