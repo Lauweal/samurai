@@ -22,7 +22,8 @@
       "@samurai/interfaces": ["libs/interfaces/src/index.ts"],
       "@samurai/models": ["libs/models/src/index.ts"],
       "@samurai/modules": ["libs/modules/src/index.ts"],
-      "@samurai/redis": ["libs/redis/src/index.ts"]
+      "@samurai/redis": ["libs/redis/src/index.ts"],
+      "@samurai/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

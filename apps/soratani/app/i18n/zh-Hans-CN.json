@@ -1,0 +1,68 @@
+{
+  "OnBoarding": {
+    "one": {
+      "title": "选择最喜欢的食物",
+      "description": "当您订购Eat street时，我们会为您提供独家优惠券、优惠和奖励"
+    },
+    "two": {
+      "title": "配送到家",
+      "description": "无论您是在线订餐还是现金订餐，我们都让订餐变得快捷、简单和免费"
+    },
+    "three": {
+      "title": "接受美味的食物",
+      "description": "一小时内你就能吃到美味的食物。每笔订单都能获得免费送货积分"
+    },
+    "button": {
+      "skip": "跳过",
+      "next": "下一步",
+      "start": "马上开始"
+    }
+  },
+  "auth": {
+    "sign-up": {
+      "title": "欢迎注册",
+      "description": "欢迎来到Soratani，开启精彩生活！",
+      "account": "请输入邮箱",
+      "accountLabel": "邮箱",
+      "password": "请输入密码",
+      "passwordLabel": "密码",
+      "affirm-password": "请输入密码",
+      "affirm-passwordLabel": "确认密码",
+      "saveMe": "记住密码",
+      "forgot": "忘记密码?",
+      "submit": "注册",
+      "loginLabel": "已经有账户了？",
+      "loginTitle": "登录",
+      "verification": {
+        "account": "请输入正确的邮箱地址",
+        "password-len": "必须8位包含大小写及特殊字符",
+        "equation-affirmPassword": "两次输入的密码不一样"
+      },
+      "required-verification": {
+        "account": "请输入邮箱",
+        "password": "请输入密码"
+      }
+    },
+    "sign-in": {
+      "title": "欢迎登录",
+      "description": "欢迎来到Soratani，开启精彩生活！",
+      "account": "请输入邮箱",
+      "accountLabel": "邮箱",
+      "password": "请输入密码",
+      "passwordLabel": "密码",
+      "saveMe": "记住密码",
+      "forgot": "忘记密码?",
+      "submit": "登录",
+      "loginLabel": "没有账户？",
+      "loginTitle": "注册",
+      "verification": {
+        "account": "请输入正确的邮箱地址",
+        "password-len": "必须8位包含大小写及特殊字符"
+      },
+      "required-verification": {
+        "account": "请输入邮箱",
+        "password": "请输入密码"
+      }
+    }
+  }
+}

@@ -11,9 +11,10 @@
     "models": "libs/models",
     "modules": "libs/modules",
     "redis": "libs/redis",
-    "samurai": "apps/samurai",
-    "samurai-e2e": "apps/samurai-e2e",
     "server": "apps/server",
+    "soratani": "apps/soratani",
+    "soratani-e2e": "apps/soratani-e2e",
+    "utils": "libs/utils",
     "web": "apps/web",
     "web-e2e": "apps/web-e2e"
   }

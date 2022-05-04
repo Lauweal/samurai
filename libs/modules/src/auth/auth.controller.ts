@@ -31,6 +31,11 @@ export class AuthController {
     });
   }
 
+  @Get('hasAccount')
+  async hasAccount(@Query() query) {
+    console.log(query)
+  }
+
   @Get('checkAccount')
   async checkAccount(@Query() query: QueryAccountDto) {
     const { account } = query
