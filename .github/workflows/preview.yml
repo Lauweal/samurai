@@ -1,0 +1,60 @@
+on:
+  push:
+    branches:
+      - "staging/*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: 🏗 Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: cache
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-packages-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-packages-${{ env.cache-name }}-
+            ${{ runner.os }}-packages-
+            ${{ runner.os }}-
+
+      - name: 📦 Install dependencies
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
+      - name: 🚀 Publish preview
+        run: npm run preview:app
+
+      - name: 👷 Create preview comment
+        uses: expo/expo-github-action/preview-comment@v7
+        id: preview
+        with:
+          comment: false
+          channel: staging
+
+
+      - name: 💬 Comment in Slack
+        uses: slackapi/slack-github-action@v1.17.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        with:
+          channel-id: C03DY3QTBTQ
+          slack-message: 'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.projectQR }}'
+

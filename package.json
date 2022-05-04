@@ -7,6 +7,7 @@
     "build:server": "nx run server:build",
     "build:h5": "nx run h5:build",
     "build:web": "nx run web:build",
+    "preview:app": "nx run soratani:build-ios-preview",
     "lint": "npm-run-all --parallel lint:*",
     "lint:server": "nx run server:lint",
     "lint:h5": "nx run h5:lint",

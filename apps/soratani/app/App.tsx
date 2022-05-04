@@ -30,6 +30,7 @@ Sentry.init({
   maxCacheItems: 40,
   tracesSampleRate: 1.0,
   enableAutoSessionTracking: true,
+  sessionTrackingIntervalMillis: 10000,
   attachStacktrace: true,
   integrations: [
     new Sentry.Native.ReactNativeTracing({

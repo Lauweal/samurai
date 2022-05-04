@@ -18,10 +18,15 @@ export const AccountModel = types
   .extend(withEnvironment)
   .views((self) => ({}))
   .actions((self) => ({
-    saveToken(token: string) {
-      console.log('token ===', token)
+    saveToken(acctount: string, token?: any) {
+      console.log(acctount, token)
       if (token) {
-        self.token = token
+        self.token = token;
+        self.account = acctount;
+        Sentry.Native.setUser({ email: acctount })
+        Sentry.Browser.setUser({ email: acctount })
+      } else {
+        Sentry.Browser.setUser(null)
       }
       return token
     }
@@ -30,16 +35,16 @@ export const AccountModel = types
     const api = new AccountApi(self.environment.api as any)
     return {
       login: async (account: IAccount) => {
-        return await api.login(account).then(self.saveToken as any)
+        return await api.login(account).then((token) => self.saveToken(account.account, token))
       },
       sigin: async (account: IAccount) => {
-        return await api.sigin(account).then(self.saveToken as any)
+        return await api.sigin(account).then((token) => self.saveToken(account.account, token))
       },
       hasAccount: debounce(async (account: string) => {
         return await api.hasAccount(account)
       }, 300),
       reloadToken: () => {
-        return api.reloadToken().then(self.saveToken as any)
+        return api.reloadToken().then((token) => self.saveToken(self.account as string, token))
       }
     }
   }) // eslint-disable-line @typescript-eslint/no-unused-vars
