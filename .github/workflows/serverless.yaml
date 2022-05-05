@@ -1,0 +1,55 @@
+name: serverless
+
+on:
+  push:
+    branches:
+      - "staging/serverless"
+
+jobs:
+  serverless:
+    name: serverless
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone local repository
+        uses: actions/checkout@v2
+
+      - name: install serverless
+        run: npm install -g serverless
+
+
+      - name: cache
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: install dependency
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
+      - name: build server
+        run: npm run build:server
+
+      - name: create-serverless-package
+        uses: Lauweal/setup-serverless@v1.0.0
+        with:
+          app: samuraisapp
+          component: nest
+          name: samuraisapp-layer
+          lib: ./dist/apps/server
+          region: ap-guangzhou
+          runtime: Nodejs12.16
+
+      - name: deploy serverless
+        run: sls deploy
+        env:
+          STAGE: test
+          SERVERLESS_PLATFORM_VENDOR: tencent
+          TENCENT_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
