@@ -92,6 +92,16 @@ jobs:
       - name: build server
         run: npm run build:server
 
+      - name: create-serverless-package
+        uses: Lauweal/setup-serverless@1.0.0
+        with:
+          app: samuraisapp
+          component: nest
+          name: samuraisapp-layer
+          lib: ./dist/apps/server
+          region: ap-guangzhou
+          runtime: Nodejs12.16
+
       - name: deploy serverless
         run: sls deploy
         env:
