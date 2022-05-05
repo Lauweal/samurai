@@ -3,7 +3,7 @@ name: serverless
 on:
   push:
     branches:
-      - "staging/serverless"
+      - "staging/server"
 
 jobs:
   serverless:

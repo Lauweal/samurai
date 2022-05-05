@@ -3,7 +3,7 @@ name: preview
 on:
   push:
     branches:
-      - "staging/*"
+      - "staging/app"
 
 jobs:
   preview:
