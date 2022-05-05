@@ -40,8 +40,8 @@ jobs:
         uses: Lauweal/setup-serverless@v1.0.0
         with:
           app: samuraisapp
-          component: nest
-          name: samuraisapp-layer
+          component: express
+          name: http-express-m8Y6I0nArx
           lib: ./dist/apps/server
           region: ap-guangzhou
           runtime: Nodejs12.16
