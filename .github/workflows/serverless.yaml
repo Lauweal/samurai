@@ -37,7 +37,7 @@ jobs:
         run: npm run build:server
 
       - name: create-serverless-package
-        uses: Lauweal/setup-serverless@v1.0.3
+        uses: Lauweal/setup-serverless@v1.0.5
         with:
           app: samurais
           component: nestjs
