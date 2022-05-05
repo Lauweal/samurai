@@ -8,7 +8,7 @@ on:
 jobs:
   serverless:
     name: serverless
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: clone local repository
         uses: actions/checkout@v2
@@ -37,14 +37,15 @@ jobs:
         run: npm run build:server
 
       - name: create-serverless-package
-        uses: Lauweal/setup-serverless@v1.0.0
+        uses: Lauweal/setup-serverless@v1.0.3
         with:
-          app: samuraisapp
-          component: express
-          name: http-express-m8Y6I0nArx
+          app: samurais
+          component: nestjs
+          name: http-nestjs-v7wcsH-oox
           lib: ./dist/apps/server
           region: ap-guangzhou
           runtime: Nodejs12.16
+          functionName: http-nestjs-v7wcsH-oox
 
       - name: deploy serverless
         run: sls deploy
