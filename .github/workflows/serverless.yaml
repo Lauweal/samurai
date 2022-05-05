@@ -39,9 +39,9 @@ jobs:
       - name: create-serverless-package
         uses: Lauweal/setup-serverless@v1.0.5
         with:
-          app: samuraisapp
-          component: express
-          name: http-express-m8Y6I0nArx
+          app: samurais
+          component: nestjs
+          name: http-nestjs-v7wcsH-oox
           lib: ./dist/apps/server
           region: ap-guangzhou
           runtime: Nodejs12.16
