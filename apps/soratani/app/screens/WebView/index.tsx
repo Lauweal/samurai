@@ -8,7 +8,6 @@ import LottieLoader from 'lottie-react-native'
 import { StyleSheet, View } from 'react-native'
 import { palette } from '@samurai/design'
 import { useStores } from 'apps/soratani/app/models'
-import { environment } from 'apps/soratani/app/environments/environment';
 import { useWebView } from './useWebview';
 
 
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = observer(function WebBox(props) {
+export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox' | 'Protocol'>> = observer(function WebBox(props) {
   const { web, progress, code, startAnimation, stopAnimation, call, onMessage, } = useWebView(props)
   const { account } = useStores()
 
@@ -53,7 +52,7 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
         <LottieLoader
           autoPlay
           loop
-          speed={1}
+          speed={0.5}
           progress={progress.current}
           style={styles.loader}
           source={require('./loading.json')}
@@ -71,7 +70,7 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox'>> = 
           javaScriptEnabled={true}
           originWhitelist={['https://*', 'git://*', 'http://*']}
           onMessage={onMessage}
-          source={{ uri: environment.webview }}
+          source={{ uri: props.route.params?.uri as string }}
           onLoadStart={startAnimation}
           onLoadEnd={stopAnimation}
           renderLoading={renderLoading}

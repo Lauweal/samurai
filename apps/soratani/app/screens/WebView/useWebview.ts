@@ -4,13 +4,14 @@ import { useCallback, useEffect, useRef } from "react";
 import { Animated, Easing } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
+import * as Haptics from 'expo-haptics'
 import { NavigatorParamList } from "apps/soratani/app/navigators";
 import { injectedJavaScriptCode } from "./injectedJavaScriptCode";
 
 
-export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'WebBox'>) {
+export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'WebBox' | 'Protocol'>) {
   const web = useRef<WebView>()
-  const bridge = useRef<(method: "BACK" | "OPEN_MODAL", payload?: any) => Promise<any>>()
+  const bridge = useRef<(method: BridgeEventType, payload?: any) => Promise<any>>()
   const inset = useSafeAreaInsets()
   const progress = useRef(new Animated.Value(0))
   const animated = useRef(Animated.loop(Animated.timing(progress.current, {
@@ -20,7 +21,7 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
     easing: Easing.linear,
     useNativeDriver: false
   })))
-  const code = injectedJavaScriptCode(inset, native.route.params.token)
+  const code = injectedJavaScriptCode(inset, native.route.params?.token)
 
   const startAnimation = () => {
     animated.current.start();
@@ -53,11 +54,19 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
     native.navigation.goBack();
   }
 
+  const shake = (data: Message) => {
+    const { payload } = data
+    if (payload === 'BUTTON') {
+      Haptics.selectionAsync()
+    }
+    console.log(data)
+  }
 
   useEffect(() => {
     if (web.current && !bridge.current) {
       bridge.current = createBridge(web.current)
       subscription('BACK', goBack)
+      subscription('SHAKE', shake)
     }
 
     return () => {

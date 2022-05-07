@@ -7,6 +7,7 @@
     "design": "libs/design",
     "h5": "apps/h5",
     "h5-e2e": "apps/h5-e2e",
+    "http-client": "libs/http-client",
     "interfaces": "libs/interfaces",
     "models": "libs/models",
     "modules": "libs/modules",

@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigation, CommonActions } from '@react-navigation/native';
+import { environment } from 'apps/soratani/app/environments/environment';
 
 export type IAuthenticationService<S = any> = (params: S) => Promise<string | null | undefined>
 
@@ -20,7 +21,7 @@ export function useAuthentication<S = any>(
       service(a).then((token) => {
         if (token) {
           resetForm()
-          navigation.dispatch(CommonActions.navigate('WebBox', { token }))
+          navigation.dispatch(CommonActions.navigate('WebBox', { token, uri: environment.webview }))
         }
       })
     }

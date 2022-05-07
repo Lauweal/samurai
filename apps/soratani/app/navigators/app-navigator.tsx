@@ -14,6 +14,7 @@ export type NavigatorParamList = {
   OnBoarding: undefined;
   SignUp: undefined;
   SignIn: undefined;
+  Protocol: { uri?: string, token?: string };
   WebBox: { uri?: string, token?: string }
 };
 
@@ -34,10 +35,15 @@ export const AppNavigator = (props: NavigationProps) => {
         screenOptions={{ headerShown: false }}
         initialRouteName={'OnBoarding'}
       >
-        <Stack.Screen name="OnBoarding" component={OnBoarding} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name='WebBox' component={WebBox} />
-        <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Group>
+          <Stack.Screen name="OnBoarding" component={OnBoarding} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name='WebBox' component={WebBox} />
+          <Stack.Screen name="SignIn" component={SignIn} />
+        </Stack.Group>
+        <Stack.Group screenOptions={{ presentation: 'modal' }}>
+          <Stack.Screen name="Protocol" component={WebBox} />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

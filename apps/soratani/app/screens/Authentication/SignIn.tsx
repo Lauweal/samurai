@@ -115,7 +115,7 @@ export const SignIn: FC<NativeStackScreenProps<NavigatorParamList, 'SignIn'>> =
           onPress={handleSubmit as any}
         />
         <View style={styles.loginContainer}>
-          <Text style={styles.loginText}>{translate('auth.sign-in.loginLabel')}</Text>
+          <Text style={styles.loginText} onPress={() => navigation.navigate('Protocol', { uri: 'https://www.baidu.com' })}>{translate('auth.sign-in.loginLabel')}</Text>
           <Button label={translate('auth.sign-in.loginTitle') as string} buttonContainerStyle={{ backgroundColor: palette.transparent }} labelStyle={styles.loginButton} onPress={goSignUpPage} />
         </View>
       </AuthLayout>

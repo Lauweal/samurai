@@ -8,7 +8,7 @@ export const Home = (props: any) => {
   }
   return (
     <div style={{ paddingTop: `${getStatusBarHeight()}px` }}>
-      <div style={{ width: '100px', height: '100px', background: '#ddd' }} onClick={() => navigate('/user/we')}>1</div>
+      <button style={{ width: '100px', height: '100px', background: '#ddd' }} onClick={() => navigate('/user/we')}>1</button>
       <div style={{ width: '100px', height: '100px', background: '#ddd' }} onClick={() => navigate(-1)}>2</div>
     </div>
   )

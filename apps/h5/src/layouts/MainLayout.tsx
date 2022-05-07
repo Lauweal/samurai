@@ -9,10 +9,9 @@ const BackIcon = () => {
 
 }
 
-const Layout = styled.div<{ top: number }>`
+const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: ${(props) => `${props.top}px`};
 `
 
 const Content = styled.div`
@@ -24,7 +23,7 @@ const Content = styled.div`
 export function MainLayout() {
   const navigate = useNavigate()
   return (
-    <Layout top={getStatusBarHeight()}>
+    <Layout>
       <Navigator>
         <CaretLeftIcon stroke={palette.primary} width={30} height={30} onClick={() => navigate(-1)} />
         <MagnifyingGlassIcon stroke={palette.primary} width={26} height={26} onClick={() => navigate(-1)} />

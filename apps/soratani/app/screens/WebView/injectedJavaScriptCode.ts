@@ -11,6 +11,18 @@ export function injectedJavaScriptCode(inset: any, token?: string) {
       window.subscriptionEvents = {};
 
       if(${JSON.stringify(Platform.OS)} === 'ios') {
+        // 拦截震动
+        window.addEventListener('click', function(events) {
+          console.log(events.target.nodeName)
+          if(['BUTTON'].includes(events.target.nodeName)) {
+            const time = new Date().getTime();
+            const event = "${BridgeEvent.SHAKE}"+ "_" + time;
+            window.ReactNativeWebView.postMessage(JSON.stringify({ event, method:"${BridgeEvent.SHAKE}", type: "${MessageEvent.response}", payload: events.target.nodeName }));
+          }
+        }, false)
+      }
+
+      if(${JSON.stringify(Platform.OS)} === 'ios') {
         window.addEventListener("message", function(events) {
           if(typeof events.data == 'string' && events.data.includes('event') && events.data.includes('payload')) {
             const {event, method, type,  payload} = JSON.parse(events.data);

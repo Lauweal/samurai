@@ -1,6 +1,7 @@
 export enum BridgeEvent {
   BACK = 'BACK',
-  OPEN_MODAL = 'OPEN_MODAL'
+  OPEN_MODAL = 'OPEN_MODAL',
+  SHAKE = 'SHAKE'
 }
 
 
