@@ -120,7 +120,6 @@
     "rxjs": "^7.0.0",
     "sentry-expo": "^4.1.1",
     "styled-components": "5.3.5",
-    "tslib": "^2.0.0",
     "typeorm": "^0.2.45",
     "uuid": "^8.3.2",
     "validate.js": "^0.13.1",
@@ -191,6 +190,7 @@
     "react-test-renderer": "18.0.0",
     "ts-jest": "27.0.5",
     "tsconfig-paths-webpack-plugin": "3.5.2",
+    "tslib": "^2.4.0",
     "typescript": "~4.6.2",
     "webpack-merge": "^5.8.0"
   }
