@@ -1,6 +1,6 @@
-import { RouterConfig } from 'apps/h5/src/navigators'
-import { MainLayout } from 'apps/h5/src/layouts'
-import { Home } from './Home'
+import { RouterConfig } from '../../../navigators';
+import { MainLayout } from '../../../layouts';
+import { Home } from './Home';
 
 const routers: RouterConfig[] = [
   {

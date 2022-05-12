@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import home from 'apps/h5/src/app/conatiners/Home/router'
-import user from 'apps/h5/src/app/conatiners/User/router'
+import home from './conatiners/Home/router';
+import user from './conatiners/User/router';
 import { Navigator } from '../navigators';
 
 const StyledApp = styled.div`
