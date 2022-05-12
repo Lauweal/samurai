@@ -6,9 +6,10 @@ on:
       - "staging/*"
 
 jobs:
-  setup:
-    name: setup
+  previewApp:
+    name: previewApp
     runs-on: macos-latest
+    if: github.ref == 'refs/heads/staging/app'
     steps:
       - name: 🏗 Setup repo
         uses: actions/checkout@v2
@@ -43,12 +44,6 @@ jobs:
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm install --force
 
-  previewApp:
-    name: previewApp
-    runs-on: macos-latest
-    needs: setup
-    if: github.ref == 'refs/heads/staging/app'
-    steps:
       - name: 🚀 Publish preview
         run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run preview:app
 
@@ -72,9 +67,34 @@ jobs:
   previewServer:
     name: previewServer
     runs-on: macos-latest
-    needs: setup
     if: github.ref == 'refs/heads/staging/server'
     steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: cache
+        uses: actions/cache@v3
+        id: cache-packages
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: 📦 Install dependencies
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
       - name: 🚀 Build server
         run: npm run build:server
 
