@@ -19,7 +19,6 @@ export const AccountModel = types
   .views((self) => ({}))
   .actions((self) => ({
     saveToken(acctount: string, token?: any) {
-      console.log(acctount, token)
       if (token) {
         self.token = token;
         self.account = acctount;

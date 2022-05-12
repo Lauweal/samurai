@@ -8,8 +8,8 @@ import { DatabaseModule } from '@samurai/database';
   imports: [
     ConfigModule.forRoot({
       envFilePath: resolve(
-        process.cwd(),
-        'apps/server',
+        __dirname,
+        'config',
         `${process.env.NODE_ENV}.env`
       ),
       ignoreEnvFile: false,

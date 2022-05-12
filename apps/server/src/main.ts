@@ -7,11 +7,12 @@ import * as session from 'express-session';
 import * as connectRedis from 'connect-redis';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
 import { RedisService } from '@samurai/redis';
+import { HttpExceptionFilter } from '@samurai/common'
 import { ConfigService } from '@nestjs/config';
 
-async function bootstrap() {
+export async function bootstrap() {
   passport.serializeUser(function (user, done) {
     done(null, user);
   });
@@ -20,7 +21,7 @@ async function bootstrap() {
   });
 
   const RedisStore = connectRedis(session);
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const globalPrefix = 'api';
   const redis = app.get(RedisService);
   const config = app.get(ConfigService);
@@ -38,6 +39,7 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+  app.useGlobalFilters(new HttpExceptionFilter())
 
 
   const port = process.env.PORT || 3333;
@@ -47,4 +49,7 @@ async function bootstrap() {
   );
 }
 
-bootstrap();
+if (process.env.NX_CLI_SET) {
+  bootstrap();
+}
+

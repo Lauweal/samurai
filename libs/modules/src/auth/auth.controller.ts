@@ -35,7 +35,7 @@ export class AuthController {
 
   @Get('hasAccount')
   async hasAccount(@Query() query) {
-    console.log(query)
+    return { data: 1 };
   }
 
   @Get('checkAccount')

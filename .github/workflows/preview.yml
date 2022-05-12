@@ -3,11 +3,11 @@ name: preview
 on:
   push:
     branches:
-      - "staging/app"
+      - "staging/*"
 
 jobs:
-  preview:
-    name: preview
+  setup:
+    name: setup
     runs-on: macos-latest
     steps:
       - name: 🏗 Setup repo
@@ -28,6 +28,7 @@ jobs:
 
       - name: cache
         uses: actions/cache@v3
+        id: cache-packages
         env:
           cache-name: cache-node-modules
         with:
@@ -42,6 +43,11 @@ jobs:
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm install --force
 
+  previewApp:
+    name: previewApp
+    runs-on: macos-latest
+    needs: setup
+    steps:
       - name: 🚀 Publish preview
         run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run preview:app
 
@@ -61,3 +67,11 @@ jobs:
         with:
           channel-id: C03DY3QTBTQ
           slack-message: 'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.projectLink }}'
+
+  previewServer:
+    name: previewServer
+    runs-on: macos-latest
+    needs: setup
+    steps:
+      - name: 🚀 Build server
+        run: npm run build:server

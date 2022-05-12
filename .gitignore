@@ -10,6 +10,7 @@ node_modules
 apps/soratani/node_modules
 apps/soratani/.env
 db/postgres/data
+apps/server/src/config
 
 # IDEs and editors
 /.idea

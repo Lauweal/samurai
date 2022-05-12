@@ -18,7 +18,6 @@ import { CustomStrategy } from './custom.strategy';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => {
-        console.log(config, config.get('JWT_SECRET'))
         return { secret: config.get('JWT_SECRET') }
       },
       inject: [ConfigService]
