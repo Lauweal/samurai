@@ -73,7 +73,7 @@ jobs:
     name: previewServer
     runs-on: macos-latest
     needs: setup
-    if: github.ref == 'refs/heads/staging/app'
+    if: github.ref == 'refs/heads/staging/server'
     steps:
       - name: 🚀 Build server
         run: npm run build:server
