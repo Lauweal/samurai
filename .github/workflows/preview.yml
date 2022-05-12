@@ -47,6 +47,7 @@ jobs:
     name: previewApp
     runs-on: macos-latest
     needs: setup
+    if: github.ref == 'refs/heads/staging/app'
     steps:
       - name: 🚀 Publish preview
         run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run preview:app
@@ -72,6 +73,17 @@ jobs:
     name: previewServer
     runs-on: macos-latest
     needs: setup
+    if: github.ref == 'refs/heads/staging/app'
     steps:
       - name: 🚀 Build server
         run: npm run build:server
+
+      - name: 📂 Sync files
+        uses: Lauweal/sftp-deploy-action@v1.0.4
+        with:
+          host: ${{ secrets.FTP_IP }}
+          port: ${{ secrets.FTP_PORT }}
+          local: ./dist/apps/server
+          remote: /www/wwwroot/samurais-server
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
