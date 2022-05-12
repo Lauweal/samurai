@@ -107,3 +107,56 @@ jobs:
           remote: /www/wwwroot/samurais-server
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+
+  previewH5:
+    name: preview-h5
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/staging/h5'
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: cache
+        uses: actions/cache@v3
+        id: cache-packages
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: 📦 Install dependencies
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
+      - name: 🚀 Build h5
+        run: npm run build:h5
+
+      - name: 📂 Sync zip
+        uses: Lauweal/archiver-action@v1.0.0
+        id: build
+        with:
+          type: zip
+          name: h5
+          input: dist/apps/h5
+
+      - name: 🚀 Upload Cos
+        uses: TencentCloud/cos-action@v1
+        with:
+          secret_id: ${{ secrets.SECRET_ID }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          cos_bucket: 'samu-1253579870'
+          cos_region: 'ap-nanjing'
+          local_path: ${{ steps.build.outputs.path }}
+          remote_path: 'packages/h5'
+          clean: true
