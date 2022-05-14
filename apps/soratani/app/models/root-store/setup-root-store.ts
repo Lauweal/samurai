@@ -17,7 +17,6 @@ const ROOT_STATE_STORAGE_KEY = 'root';
  */
 export async function createEnvironment() {
   const env = new Environment();
-  await env.setup();
   return env;
 }
 
@@ -27,30 +26,25 @@ export async function createEnvironment() {
 export async function setupRootStore() {
   let rootStore: RootStore;
   let data: any;
-
-  // prepare the environment that will be associated with the RootStore.
   const env = await createEnvironment();
   try {
-    // load data from storage
     data = (await storage.load(ROOT_STATE_STORAGE_KEY)) || {};
     rootStore = RootStoreModel.create(data, env);
   } catch (e) {
-    // if there's any problems loading, then let's at least fallback to an empty state
-    // instead of crashing.
     rootStore = RootStoreModel.create({}, env);
-
-    // but please inform us what happened
+    // @ts-ignore
     __DEV__ && console.tron.error(e.message, null);
   }
-
-  // reactotron logging
+  await env.setup(rootStore)
   if (__DEV__) {
     env.reactotron.setRootStore(rootStore, data);
   }
 
+  console.log(rootStore)
   // track changes & save to storage
-  onSnapshot(rootStore, (snapshot) =>
-    storage.save(ROOT_STATE_STORAGE_KEY, snapshot)
+  onSnapshot(rootStore, (snapshot) => {
+    return storage.save(ROOT_STATE_STORAGE_KEY, snapshot)
+  }
   );
 
   return rootStore;

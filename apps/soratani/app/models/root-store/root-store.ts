@@ -1,10 +1,8 @@
 import { Instance, SnapshotOut, types } from 'mobx-state-tree';
+import { defaultEnv } from '../../hooks';
 import { AccountModel } from '../account/account'
-// import { CharacterStoreModel } from "../character-store/character-store"
-// import { AccountModel } from '../account/account'
-// import { UserModel } from '../user/user'
-// import { ZoneStoreModel } from "../zone-store/zone-store"
-// import { ZoneModel } from ".."
+import { withEnvironment } from '../extensions/with-environment';
+import { SettingsModel } from '../settings/settings'
 
 /**
  * A RootStore model.
@@ -12,12 +10,19 @@ import { AccountModel } from '../account/account'
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
   account: types.optional(AccountModel, {}),
+  settings: types.optional(SettingsModel, { ...defaultEnv }),
   // zoneStore: types.optional(ZoneStoreModel, {} as any),
   // characterStore: types.optional(CharacterStoreModel, {}),
   // account: types.optional(AccountModel, { id: 1 }),
   // user: types.optional(UserModel, { id: 2 } as any),
   // zone: types.optional(ZoneModel, {} as any),
 })
+  .extend(withEnvironment)
+  .actions((self) => ({
+    uploadApi: () => {
+      self.environment.setup(self as any)
+    }
+  }))
 
 /**
  * The RootStore instance.

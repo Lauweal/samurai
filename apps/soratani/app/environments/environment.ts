@@ -2,6 +2,6 @@
 // When building for production, this file is replaced with `environment.prod.ts`.
 export const environment = {
   production: false,
-  baseUrl: 'http://192.168.2.3:3333',
-  webview: 'http://192.168.2.3:4200'
+  baseUrl: '1.13.190.96',
+  webview: 'http://192.168.2.2:4200'
 };

@@ -1,9 +1,9 @@
 import { IAccount } from "@samurai/interfaces";
 import * as Sentry from 'sentry-expo'
-import { Api } from "./api";
+import { HttpClient } from '@samurai/http-client'
 
 export class AccountApi {
-  constructor(private readonly api: Api) {
+  constructor(private readonly api: HttpClient) {
   }
 
   async sigin(account: IAccount) {
@@ -14,7 +14,10 @@ export class AccountApi {
   }
 
   async login(account: IAccount) {
-    return await this.api.post<string>('/api/auth/login', account).catch((e) => {
+    return await this.api.post<string>('/api/auth/login', account).then((res) => {
+      console.log("=======================", res)
+      return res;
+    }).catch((e) => {
       return null;
     })
   }

@@ -1,12 +1,12 @@
 import React from 'react';
-import { useColorScheme } from 'react-native';
+// import { useColorScheme } from 'react-native';
 import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { OnBoarding, WebBox, SignUp, SignIn } from '../screens';
+import { OnBoarding, WebBox, SignUp, SignIn, EnvSetting } from 'apps/soratani/app/screens';
 import { navigationRef } from './navigation-utilities';
 import { useStores } from '../models';
 
@@ -14,6 +14,7 @@ export type NavigatorParamList = {
   OnBoarding: undefined;
   SignUp: undefined;
   SignIn: undefined;
+  env: undefined;
   Protocol: { uri?: string, token?: string };
   WebBox: { uri?: string, token?: string }
 };
@@ -43,6 +44,7 @@ export const AppNavigator = (props: NavigationProps) => {
         </Stack.Group>
         <Stack.Group screenOptions={{ presentation: 'modal' }}>
           <Stack.Screen name="Protocol" component={WebBox} />
+          <Stack.Screen name="env" component={EnvSetting} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

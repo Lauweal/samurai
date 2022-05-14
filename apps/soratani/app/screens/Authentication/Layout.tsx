@@ -2,8 +2,9 @@ import { palette, sizes, fonts } from '@samurai/design';
 import { Dimensions } from 'react-native';
 import { Screen } from 'apps/soratani/app/components'
 import React from 'react';
-import { View, StyleSheet, Image, ViewStyle, Text } from 'react-native';
+import { View, StyleSheet, Image, ViewStyle, Text, TouchableOpacity } from 'react-native';
 import { imagesAssets } from '@samurai/design';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 
 const { height } = Dimensions.get('window');
 
@@ -32,14 +33,21 @@ const styles = StyleSheet.create({
 });
 
 export function AuthLayout(props: Props) {
+  const navigation = useNavigation()
+  const onPress = () => {
+    navigation.dispatch(CommonActions.navigate('env'))
+  }
+
   return (
     <Screen preset="scroll">
       <View style={styles.logoContainer}>
-        <Image
-          source={imagesAssets.logo}
-          resizeMode="contain"
-          style={styles.logoImage}
-        />
+        <TouchableOpacity onPress={onPress}>
+          <Image
+            source={imagesAssets.logo}
+            resizeMode="contain"
+            style={styles.logoImage}
+          />
+        </TouchableOpacity>
       </View>
       <View style={[styles.titleContainer, props.titleContainerStyle]}>
         <Text style={[styles.title, fonts.h2]}>{props.title}</Text>

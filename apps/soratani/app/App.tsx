@@ -18,6 +18,7 @@ import {
 import { fontsAssets } from '@samurai/design';
 import * as Sentry from 'sentry-expo'
 import { Notification } from './components';
+import { defaultEnv } from './hooks';
 
 const routingInstrumentation = new Sentry.Native.ReactNavigationInstrumentation()
 Sentry.init({
@@ -46,7 +47,7 @@ Sentry.init({
 export const NAVIGATION_PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 function App() {
-  const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined);
+  const [rootStore, setRootStore] = useState<Partial<RootStore> | undefined>(undefined);
   const {
     initialNavigationState,
     onNavigationStateChange,

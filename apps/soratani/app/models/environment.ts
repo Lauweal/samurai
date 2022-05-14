@@ -1,42 +1,33 @@
 import { environment } from 'apps/soratani/app/environments/environment'
-import { Api } from '../services/api';
+import { HttpClient, HttpClientPlugin } from '@samurai/http-client'
+import * as Sentry from 'sentry-expo'
+import { RootStore } from './root-store/root-store';
 
 let ReactotronDev: any;
 if (__DEV__) {
   const { Reactotron } = require('../services/reactotron');
   ReactotronDev = Reactotron;
 }
-
-/**
- * The environment is a place where services and shared dependencies between
- * models live.  They are made available to every model via dependency injection.
- */
 export class Environment {
   constructor() {
-    // create each service
     if (__DEV__) {
-      // dev-only services
       this.reactotron = new ReactotronDev();
     }
-
-    this.api = new Api({ url: environment.baseUrl, timeout: 5000 });
   }
 
-  async setup() {
-    // allow each service to setup
+  async setup(rootStore: RootStore) {
     if (__DEV__) {
       await this.reactotron.setup();
     }
-    await this.api.setup();
+    this.api = new HttpClient({
+      protocol: rootStore.settings.server_protocol as any,
+      host: rootStore.settings.server_host as string,
+      port: Number(rootStore.settings.server_port)
+    })
+    this.api.use(new HttpClientPlugin(Sentry.Browser))
   }
 
-  /**
-   * Reactotron is only available in dev.
-   */
   reactotron: typeof ReactotronDev;
 
-  /**
-   * Our api.
-   */
-  api: Api;
+  api!: HttpClient;
 }

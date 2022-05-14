@@ -49,7 +49,5 @@ export async function bootstrap() {
   );
 }
 
-if (process.env.NX_CLI_SET) {
-  bootstrap();
-}
+bootstrap();
 

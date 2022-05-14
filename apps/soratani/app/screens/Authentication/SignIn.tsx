@@ -4,13 +4,13 @@ import { translate } from 'apps/soratani/app/i18n';
 import { observer } from 'mobx-react-lite';
 import React, { FC } from 'react';
 import { Button, Input, Switch, Icons } from 'apps/soratani/app/components';
-import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { fonts, palette, sizes, iconsAssets } from '@samurai/design';
 import * as Yup from 'yup';
 import { IAccount } from '@samurai/interfaces';
 import { AuthLayout } from './Layout';
 import { useStores } from 'apps/soratani/app/models';
-import { useAuthentication } from './hooks';
+import { useAuthentication } from 'apps/soratani/app/hooks';
 
 interface IAccountParams extends Pick<IAccount, 'account' | 'password'> {
   save: boolean
@@ -61,7 +61,6 @@ const SignupSchema = Yup.object().shape({
 
 export const SignIn: FC<NativeStackScreenProps<NavigatorParamList, 'SignIn'>> =
   observer(function SignIn({ navigation }) {
-
     const { account } = useStores()
     const { errors, values, showPassword, canSubmit, showPass, cancel, handleChange, handleSubmit } = useAuthentication<IAccountParams>({
       account: '',

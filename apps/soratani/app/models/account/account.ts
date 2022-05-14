@@ -2,6 +2,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { AccountApi } from "apps/soratani/app/services"
 import * as Sentry from 'sentry-expo'
 import { withEnvironment } from "../extensions/with-environment"
+import { withRootStore } from "../extensions/with-root-store"
 import { IAccount } from "@samurai/interfaces"
 import { debounce } from '@samurai/utils'
 
@@ -15,6 +16,7 @@ export const AccountModel = types
     password: types.maybe(types.string),
     token: types.maybe(types.string),
   })
+  .extend(withRootStore)
   .extend(withEnvironment)
   .views((self) => ({}))
   .actions((self) => ({

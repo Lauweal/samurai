@@ -64,5 +64,33 @@
         "password": "请输入密码"
       }
     }
+  },
+  "setting": {
+    "env": {
+      "serverhost": {
+        "label": "服务器IP",
+        "placeholder": "请输入服务器IP"
+      },
+      "serverprotocol": {
+        "label": "服务器协议",
+        "placeholder": "请输入服务器协议"
+      },
+      "serverport": {
+        "label": "服务器端口",
+        "placeholder": "请输入服务器端口"
+      },
+      "webprotocol": {
+        "label": "浏览器协议",
+        "placeholder": "请输入浏览器协议"
+      },
+      "webhost": {
+        "label": "浏览器IP",
+        "placeholder": "请输入浏览器IP"
+      },
+      "webport": {
+        "label": "浏览器端口",
+        "placeholder": "请输入浏览器端口"
+      }
+    }
   }
 }

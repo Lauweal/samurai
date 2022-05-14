@@ -4,3 +4,4 @@ export * from './root-store/setup-root-store';
 export * from './extensions/with-environment';
 export * from './extensions/with-root-store';
 export * from "./account/account"
+export * from "./settings/settings"

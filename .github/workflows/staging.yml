@@ -53,7 +53,7 @@ jobs:
         with:
           project: ./apps/soratani
           comment: false
-          channel: staging
+          channel: default
 
 
       - name: 💬 Comment in Slack
@@ -62,7 +62,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           channel-id: C03DY3QTBTQ
-          slack-message: 'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.projectLink }}'
+          slack-message: 'New deployment is ready! Preview: ${{ steps.preview.outputs.projectLink }}'
 
   server:
     name: server

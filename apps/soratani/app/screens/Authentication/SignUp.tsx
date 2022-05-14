@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { IAccount } from '@samurai/interfaces';
 import { AuthLayout } from './Layout';
 import { useStores } from 'apps/soratani/app/models';
-import { useAuthentication } from './hooks';
+import { useAuthentication } from 'apps/soratani/app/hooks';
 
 interface IAccountParams extends Pick<IAccount, 'account' | 'password'> {
   affirmPassword: string

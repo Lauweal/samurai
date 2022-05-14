@@ -66,5 +66,33 @@
         "password": "Please enter your password"
       }
     }
+  },
+  "setting": {
+    "env": {
+      "serverhost": {
+        "label": "server host",
+        "placeholder": "please input server host"
+      },
+      "serverprotocol": {
+        "label": "server protocol",
+        "placeholder": "please input server protocol"
+      },
+      "serverport": {
+        "label": "server port",
+        "placeholder": "please input server port"
+      },
+      "webprotocol": {
+        "label": "server protocol",
+        "placeholder": "please input server protocol"
+      },
+      "webhost": {
+        "label": "web host",
+        "placeholder": "please input web host"
+      },
+      "webport": {
+        "label": "web port",
+        "placeholder": "web port"
+      }
+    }
   }
 }
