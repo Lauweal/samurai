@@ -1,0 +1,163 @@
+name: staging
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  app:
+    name: app
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/staging/app'
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: 🏗 Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: latest
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: cache
+        uses: actions/cache@v3
+        id: cache-packages
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: 📦 Install dependencies
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
+      - name: 🚀 Publish preview
+        run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run publish:app-staging
+
+      - name: 👷 Create preview comment
+        uses: expo/expo-github-action/preview-comment@v7
+        id: preview
+        with:
+          project: ./apps/soratani
+          comment: false
+          channel: default
+
+
+      - name: 💬 Comment in Slack
+        uses: slackapi/slack-github-action@v1.17.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        with:
+          channel-id: C03DY3QTBTQ
+          slack-message: 'New deployment is ready! Preview: ${{ steps.preview.outputs.projectLink }}'
+
+  server:
+    name: server
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/staging/server'
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: cache
+        uses: actions/cache@v3
+        id: cache-packages
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: 📦 Install dependencies
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
+      - name: 🚀 Build server
+        run: npm run build:server
+
+      - name: 📂 Sync files
+        uses: Lauweal/sftp-deploy-action@v1.0.0
+        with:
+          host: ${{ secrets.FTP_IP }}
+          port: ${{ secrets.FTP_PORT }}
+          local: ./dist/apps/server
+          remote: /www/wwwroot/samurais-server
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+
+  H5:
+    name: h5
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/staging/h5'
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: npm
+
+      - name: cache
+        uses: actions/cache@v3
+        id: cache-packages
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: 📦 Install dependencies
+        if: steps.cache-packages.outputs.cache-hit != 'true'
+        run: npm install --force
+
+      - name: 🚀 Build h5
+        run: npm run build:h5
+
+      - name: 📂 Sync zip
+        uses: Lauweal/archiver-action@v1.0.0
+        id: build
+        with:
+          type: zip
+          name: h5
+          input: dist/apps/h5
+          output: packages/h5
+
+      - name: 🚀 Upload Cos
+        uses: Lauweal/tencent-cos-action@v1.0.0
+        with:
+          secret_id: ${{ secrets.SECRET_ID }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          cos_bucket: 'samu-1253579870'
+          cos_region: 'ap-nanjing'
+          local_path: ${{ steps.build.outputs.path }}
+          remote_path: 'packages/h5/'
+          clean: true

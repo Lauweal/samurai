@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { environment } from 'apps/soratani/app/environments/environment';
+import { useStores } from "../models";
 
 export type IAuthenticationService<S = any> = (params: S) => Promise<string | null | undefined>
 
@@ -11,6 +12,7 @@ export function useAuthentication<S = any>(
   service: IAuthenticationService<S>
 ) {
   const navigation = useNavigation()
+  const { settings } = useStores()
   const [showPassword, setShowPassword] = useState(false)
   const { errors, values, handleChange, handleSubmit, setValues, resetForm } = useFormik<S>({
     initialValues: _defaultValue,
@@ -21,7 +23,7 @@ export function useAuthentication<S = any>(
       service(a).then((token) => {
         if (token) {
           resetForm()
-          navigation.dispatch(CommonActions.navigate('WebBox', { token, uri: environment.webview }))
+          navigation.dispatch(CommonActions.navigate('WebBox', { token, uri: `${settings.web_protocol}://${!!settings.web_port ? settings.web_host + ':' + settings.server_port : settings.web_host}` }))
         }
       })
     }
