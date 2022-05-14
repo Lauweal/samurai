@@ -23,7 +23,7 @@ export function useAuthentication<S = any>(
       service(a).then((token) => {
         if (token) {
           resetForm()
-          navigation.dispatch(CommonActions.navigate('WebBox', { token, uri: `${settings.web_protocol}://${!!settings.web_port ? settings.web_host + ':' + settings.server_port : settings.web_host}` }))
+          navigation.dispatch(CommonActions.navigate('WebBox', { token, uri: `${settings.web_protocol}://${!!settings.web_port ? settings.web_host + ':' + settings.web_port : settings.web_host}` }))
         }
       })
     }

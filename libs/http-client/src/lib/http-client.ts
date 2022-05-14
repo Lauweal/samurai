@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { Transaction, Span, Client } from '@sentry/types';
 export type Protocol = "http" | "https"
+import * as Sentry from '@sentry/browser'
 
 export type HttpClientOption = {
   host: string
@@ -15,8 +16,9 @@ export interface IHttpClientPlugin<T = any> {
 export class HttpClientPlugin<T = any> implements IHttpClientPlugin<T> {
   private transaction!: Transaction;
   constructor(private readonly sentry?: any) {
-    this.transaction = sentry.startTransaction({
+    this.transaction = Sentry.startTransaction({
       name: 'http.client',
+      op: 'http.request',
     })
     sentry.getCurrentHub().configureScope((scope: { setSpan: (arg0: Transaction) => any; }) => scope.setSpan(this.transaction))
   }
@@ -26,8 +28,8 @@ export class HttpClientPlugin<T = any> implements IHttpClientPlugin<T> {
   request(config: AxiosRequestConfig<any>): AxiosRequestConfig<any> {
     const method = config.method?.toUpperCase()
     const span = this.transaction?.startChild({
-      op: 'http.request',
-      description: `${method} ${config.url}`
+      op: method,
+      description: config.url
     });
     config.headers = { ...config.headers, traceId: span?.traceId as string }
     span?.setTag("http.method", method);
@@ -86,7 +88,7 @@ export class HttpClient {
     HttpClient.client.client.interceptors.response.use((res) => {
       return this.plugins.reduce((a, b) => b.response(a), res)
     }, (error): any => {
-      console.log('err ====>', error)
+      console.log(this.plugins, '========> plugins')
       if (error.response) {
         return this.plugins.reduce((a: AxiosResponse<any, any>, b) => {
           a.config = error.config

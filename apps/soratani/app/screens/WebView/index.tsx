@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
 export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox' | 'Protocol'>> = observer(function WebBox(props) {
   const { web, progress, code, startAnimation, stopAnimation, call, onMessage, } = useWebView(props)
   const { account } = useStores()
-
   useEffect(() => {
     account.reloadToken()
   }, [])

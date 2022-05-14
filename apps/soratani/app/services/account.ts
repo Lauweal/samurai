@@ -15,7 +15,6 @@ export class AccountApi {
 
   async login(account: IAccount) {
     return await this.api.post<string>('/api/auth/login', account).then((res) => {
-      console.log("=======================", res)
       return res;
     }).catch((e) => {
       return null;

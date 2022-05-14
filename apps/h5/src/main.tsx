@@ -19,7 +19,6 @@ Sentry.init({
   attachStacktrace: true,
 });
 const client = new HttpClient({ protocol: 'http', host: 'localhost', port: 3333 })
-client.use(new HttpClientPlugin(Sentry))
 client.get('/api/auth/reloadToken')
 root.render(
   <StrictMode>

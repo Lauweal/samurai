@@ -61,7 +61,7 @@ function App() {
   }, []);
   if (!rootStore || !isNavigationStateRestored) return null;
   return (
-    <RootStoreProvider value={rootStore}>
+    <RootStoreProvider value={rootStore as RootStore}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <Notification>
           <AppNavigator

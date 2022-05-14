@@ -6,7 +6,6 @@ import React, { FC } from 'react';
 import { Button, Input, Switch, Icons } from 'apps/soratani/app/components';
 import { StyleSheet, View, Text } from 'react-native';
 import { fonts, palette, sizes } from '@samurai/design';
-import * as FileSystem from "expo-file-system";
 import * as Yup from 'yup';
 // import archive from 'react-native-zip-archive'
 import { IAccount } from '@samurai/interfaces';
@@ -68,11 +67,6 @@ const SignupSchema = Yup.object().shape({
 
 export const SignUp: FC<NativeStackScreenProps<NavigatorParamList, 'SignUp'>> =
   observer(function SignUp({ navigation }) {
-    FileSystem.downloadAsync('https://samu-1253579870.cos.ap-nanjing.myqcloud.com/packages/h5/h5.zip', `${FileSystem.cacheDirectory}/v1/h5.zip`).then((res) => {
-      console.log('file ====> ', res)
-    })
-
-    // console.log(archive)
     const { account } = useStores()
     const { errors, values, showPassword, canSubmit, showPass, cancel, handleChange, handleSubmit } = useAuthentication<IAccountParams>({
       account: '',
