@@ -40,10 +40,17 @@
         "releaseChannel": "production"
       }
     },
-    "build-ios-preview": {
+    "dev": {
       "executor": "@nrwl/expo:build-ios",
       "options": {
-        "releaseChannel": "staging",
+        "releaseChannel": "test",
+        "type": "simulator"
+      }
+    },
+    "staging": {
+      "executor": "@nrwl/expo:build-ios",
+      "options": {
+        "releaseChannel": "default",
         "type": "simulator"
       }
     },
@@ -70,12 +77,6 @@
     "publish": {
       "executor": "@nrwl/expo:publish",
       "options": {}
-    },
-    "publish-preview": {
-      "executor": "@nrwl/expo:publish",
-      "options": {
-        "releaseChannel": "staging"
-      }
     },
     "publish-set": {
       "executor": "@nrwl/expo:publish-set",

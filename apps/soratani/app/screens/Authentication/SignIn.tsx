@@ -67,7 +67,7 @@ export const SignIn: FC<NativeStackScreenProps<NavigatorParamList, 'SignIn'>> =
       account: '',
       password: '',
       save: false
-    }, SignupSchema, account.login as any)
+    }, SignupSchema, account.login)
 
     const goSignUpPage = () => {
       navigation.replace('SignUp')

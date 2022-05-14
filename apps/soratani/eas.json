@@ -1,7 +1,6 @@
 {
   "build": {
     "production": {
-      "releaseChannel": "production",
       "android": {
         "buildType": "app-bundle"
       }
@@ -11,8 +10,17 @@
         "developmentClient": true
       }
     },
-    "preview": {
-      "releaseChannel": "staging",
+    "staging": {
+      "releaseChannel": "default",
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "test": {
+      "releaseChannel": "test",
       "ios": {
         "simulator": true
       },

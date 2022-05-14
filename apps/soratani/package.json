@@ -47,7 +47,10 @@
     "reactotron-react-native": "*",
     "reactotron-react-js": "*",
     "react-native-keychain": "*",
-    "validate.js": "*"
+    "validate.js": "*",
+    "expo-font": "*",
+    "expo-file-system": "*",
+    "expo-haptics": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && cp package-lock.json ./apps/soratani/ && mv ./apps/soratani/eas.js ./index.js",
