@@ -45,9 +45,9 @@ jobs:
         run: npm install --force
 
       - name: 🚀 Download Cos
-        uses: Lauweal/tencent-cos-action@v1.0.1
+        uses: Lauweal/tencent-cos-action@v1.0.2
         with:
-          type: 'dowload'
+          type: 'download'
           secret_id: ${{ secrets.SECRET_ID }}
           secret_key: ${{ secrets.SECRET_KEY }}
           cos_bucket: 'samu-1253579870'
@@ -155,7 +155,7 @@ jobs:
         run: npm run build:h5
 
       - name: 📂 Sync zip
-        uses: Lauweal/archiver-action@v1.0.0
+        uses: Lauweal/archiver-action@v1.0.2
         id: build
         with:
           type: zip
