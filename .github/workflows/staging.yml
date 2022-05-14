@@ -44,8 +44,20 @@ jobs:
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm install --force
 
+      - name: 🚀 Download Cos
+        uses: Lauweal/tencent-cos-action@v1.0.1
+        with:
+          type: 'dowload'
+          secret_id: ${{ secrets.SECRET_ID }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          cos_bucket: 'samu-1253579870'
+          cos_region: 'ap-nanjing'
+          local_path: 'apps/soratani'
+          remote_path: 'packages/h5/.env'
+          clean: true
+
       - name: 🚀 Publish preview
-        run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run publish:app-staging
+        run: npm run publish:app-staging
 
       - name: 👷 Create preview comment
         uses: expo/expo-github-action/preview-comment@v7

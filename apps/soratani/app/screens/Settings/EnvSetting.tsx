@@ -6,7 +6,7 @@ import { translate } from 'apps/soratani/app/i18n';
 import { StyleSheet, View } from 'react-native'
 import * as Yup from 'yup';
 import { FC } from "react";
-import { palette, sizes } from "@samurai/design";
+import { fonts, palette, sizes } from "@samurai/design";
 import { useStores, ISetting } from "apps/soratani/app/models";
 import { useEnvSetting } from 'apps/soratani/app/hooks'
 
@@ -87,8 +87,8 @@ export const EnvSetting: FC<NativeStackScreenProps<NavigatorParamList, 'env'>> =
             inputContainerStyle={{ paddingHorizontal: sizes.spacing_12, height: 44 }}
             errorMsg={''}
             onChange={handleChange('web_host')}
-            label={translate('setting.env.serverport.label') as string}
-            placeholder={translate('setting.env.serverport.placeholder') as string}
+            label={translate('setting.env.webhost.label') as string}
+            placeholder={translate('setting.env.webhost.placeholder') as string}
             value={values.web_host}
           />
           <Input
@@ -97,11 +97,16 @@ export const EnvSetting: FC<NativeStackScreenProps<NavigatorParamList, 'env'>> =
             inputContainerStyle={{ paddingHorizontal: sizes.spacing_12, height: 44 }}
             errorMsg={''}
             onChange={handleChange('web_port')}
-            label={translate('setting.env.serverport.label') as string}
-            placeholder={translate('setting.env.serverport.placeholder') as string}
+            label={translate('setting.env.webport.label') as string}
+            placeholder={translate('setting.env.webport.placeholder') as string}
             value={values.web_port}
           />
-          <Button label={"提交"} buttonContainerStyle={{ ...styles.button, backgroundColor: palette.primary }} onPress={handleSubmit as any} />
+          <Button
+            label={"保存"}
+            labelStyle={fonts.body2}
+            buttonContainerStyle={{ ...styles.button, backgroundColor: palette.primary }}
+            onPress={handleSubmit as any}
+          />
         </View>
       </Screen>
     );
