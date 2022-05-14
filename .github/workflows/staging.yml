@@ -1,4 +1,4 @@
-name: preview
+name: staging
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - "staging/*"
 
 jobs:
-  previewApp:
-    name: previewApp
+  app:
+    name: app
     runs-on: macos-latest
     if: github.ref == 'refs/heads/staging/app'
     steps:
@@ -45,7 +45,7 @@ jobs:
         run: npm install --force
 
       - name: 🚀 Publish preview
-        run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run preview:app
+        run: export SENTRY_ORG=${{secrets.SENTRY_ORG}} && export SENTRY_APP_PROJECT=${{secrets.SENTRY_APP_PROJECT}} && export SENTRY_APP_AUTH_TOKEN=${{secrets.SENTRY_APP_AUTH_TOKEN}} && npm run publish:app-staging
 
       - name: 👷 Create preview comment
         uses: expo/expo-github-action/preview-comment@v7
@@ -64,8 +64,8 @@ jobs:
           channel-id: C03DY3QTBTQ
           slack-message: 'New deployment is ready!\n- Preview: ${{ steps.preview.outputs.projectLink }}'
 
-  previewServer:
-    name: previewServer
+  server:
+    name: server
     runs-on: macos-latest
     if: github.ref == 'refs/heads/staging/server'
     steps:
@@ -99,7 +99,7 @@ jobs:
         run: npm run build:server
 
       - name: 📂 Sync files
-        uses: Lauweal/sftp-deploy-action@v1.0.4
+        uses: Lauweal/sftp-deploy-action@v1.0.0
         with:
           host: ${{ secrets.FTP_IP }}
           port: ${{ secrets.FTP_PORT }}
@@ -108,8 +108,8 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
 
-  previewH5:
-    name: preview-h5
+  H5:
+    name: h5
     runs-on: macos-latest
     if: github.ref == 'refs/heads/staging/h5'
     steps:
@@ -149,14 +149,15 @@ jobs:
           type: zip
           name: h5
           input: dist/apps/h5
+          output: packages/h5
 
       - name: 🚀 Upload Cos
-        uses: TencentCloud/cos-action@v1
+        uses: Lauweal/tencent-cos-action@v1.0.0
         with:
           secret_id: ${{ secrets.SECRET_ID }}
           secret_key: ${{ secrets.SECRET_KEY }}
           cos_bucket: 'samu-1253579870'
           cos_region: 'ap-nanjing'
           local_path: ${{ steps.build.outputs.path }}
-          remote_path: 'packages/h5'
+          remote_path: 'packages/h5/'
           clean: true

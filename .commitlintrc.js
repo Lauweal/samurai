@@ -1,6 +1,6 @@
 module.exports = {
   // 继承的规则
-  extends: ['@commitlint/config-nx-scopes'],
+  extends: ['@commitlint/config-conventional'],
   // 定义规则类型
   rules: {
     // type 类型定义，表示 git 提交的 type 必须在以下类型范围内
