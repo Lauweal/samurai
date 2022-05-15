@@ -1,4 +1,7 @@
+import { HttpClient } from '@samurai/http-client'
 import { useNavigate } from 'react-router-dom'
+const client = new HttpClient({ protocol: 'http', host: 'localhost', port: 3333 })
+client.get('/api/auth/reloadToken')
 
 export const User = (props: any) => {
   const navigate = useNavigate()

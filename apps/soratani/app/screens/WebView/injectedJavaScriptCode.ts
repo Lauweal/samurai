@@ -60,5 +60,17 @@ export function injectedJavaScriptCode(inset: any, token?: string) {
         }
       }
   })();
+  (function(open){
+    XMLHttpRequest.prototype.open = function() {
+      console.log(open, arguments);
+      open.apply(this, arguments);
+    };
+  })(XMLHttpRequest.prototype.open);
+  (function(open){
+    XMLHttpRequest.prototype.send = function() {
+      console.log(open, arguments);
+      send.apply(this, arguments);
+    };
+  })(XMLHttpRequest.prototype.send);
   `;
 }

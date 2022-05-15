@@ -14,20 +14,20 @@ jobs:
       - name: 🏗 Setup repo
         uses: actions/checkout@v2
 
-      - name: 🏗 Setup Node
+      - name: 🏗  初始化node环境
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
           cache: npm
 
-      - name: 🏗 Setup Expo and EAS
+      - name: 🏗 初始化expo和eas构建环境
         uses: expo/expo-github-action@v7
         with:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: cache
+      - name: 🏗 缓存检查
         uses: actions/cache@v3
         id: cache-packages
         env:
@@ -40,23 +40,23 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: 📦 Install dependencies
+      - name: 📦 安装依赖项
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm install --force
 
-      - name: 🚀 Download Cos
+      - name: 🚀 从腾讯云下载环境变量
         uses: Lauweal/tencent-cos-action@v1.0.2
         with:
           type: 'download'
           secret_id: ${{ secrets.SECRET_ID }}
           secret_key: ${{ secrets.SECRET_KEY }}
-          cos_bucket: 'samu-1253579870'
+          cos_bucket: 'environments-1253579870'
           cos_region: 'ap-nanjing'
           local_path: 'apps/soratani'
-          remote_path: 'packages/h5/.env'
+          remote_path: 'samurai/app/.env'
           clean: true
 
-      - name: 🚀 Publish preview
+      - name: 🚀 进行expo构建发布
         run: npm run publish:app-staging
 
       - name: 👷 Create preview comment
@@ -68,29 +68,29 @@ jobs:
           channel: default
 
 
-      - name: 💬 Comment in Slack
+      - name: 💬 发送版本消息通知
         uses: slackapi/slack-github-action@v1.17.0
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           channel-id: C03DY3QTBTQ
-          slack-message: 'New deployment is ready! Preview: ${{ steps.preview.outputs.projectLink }}'
+          slack-message: '【发布-staging】soratani-app: ${{ steps.preview.outputs.projectLink }}'
 
   server:
     name: server
     runs-on: macos-latest
     if: github.ref == 'refs/heads/staging/server'
     steps:
-      - name: 🏗 Setup repo
+      - name: 🏗 初始化代码仓
         uses: actions/checkout@v2
 
-      - name: 🏗 Setup Node
+      - name: 🏗 初始化node环境
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
           cache: npm
 
-      - name: cache
+      - name: 🏗 缓存检查
         uses: actions/cache@v3
         id: cache-packages
         env:
@@ -103,14 +103,26 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: 📦 Install dependencies
+      - name: 📦 依赖下载
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm install --force
 
-      - name: 🚀 Build server
+      - name: 🚀 项目构建
         run: npm run build:server
 
-      - name: 📂 Sync files
+      - name: 🚀 从腾讯云下载待上传服务器的环境变量
+        uses: Lauweal/tencent-cos-action@v1.0.2
+        with:
+          type: 'download'
+          secret_id: ${{ secrets.SECRET_ID }}
+          secret_key: ${{ secrets.SECRET_KEY }}
+          cos_bucket: 'environments-1253579870'
+          cos_region: 'ap-nanjing'
+          local_path: 'dist/apps/server/config'
+          remote_path: 'samurai/server/'
+          clean: true
+
+      - name: 📂 项目发布到指定服务器
         uses: Lauweal/sftp-deploy-action@v1.0.0
         with:
           host: ${{ secrets.FTP_IP }}
@@ -120,21 +132,29 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
 
+      - name: 💬 发送版本消息通知
+        uses: slackapi/slack-github-action@v1.17.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        with:
+          channel-id: C03DY3QTBTQ
+          slack-message: '【发布-staging】soratani-server'
+
   H5:
     name: h5
     runs-on: macos-latest
     if: github.ref == 'refs/heads/staging/h5'
     steps:
-      - name: 🏗 Setup repo
+      - name: 🏗 初始化代码仓
         uses: actions/checkout@v2
 
-      - name: 🏗 Setup Node
+      - name: 🏗 初始化node环境
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
           cache: npm
 
-      - name: cache
+      - name: 🏗 缓存检查
         uses: actions/cache@v3
         id: cache-packages
         env:
@@ -147,15 +167,15 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: 📦 Install dependencies
+      - name: 📦 依赖下载
         if: steps.cache-packages.outputs.cache-hit != 'true'
         run: npm install --force
 
-      - name: 🚀 Build h5
+      - name: 🚀 项目构建
         run: npm run build:h5
 
-      - name: 📂 Sync zip
-        uses: Lauweal/archiver-action@v1.0.2
+      - name: 📂 打包结果压缩
+        uses: Lauweal/archiver-action@v1.0.0
         id: build
         with:
           type: zip
@@ -163,7 +183,7 @@ jobs:
           input: dist/apps/h5
           output: packages/h5
 
-      - name: 🚀 Upload Cos
+      - name: 🚀 压缩包推送腾讯云
         uses: Lauweal/tencent-cos-action@v1.0.0
         with:
           secret_id: ${{ secrets.SECRET_ID }}

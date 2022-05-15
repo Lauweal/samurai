@@ -13,6 +13,7 @@
         "outputPath": "dist/apps/server",
         "main": "apps/server/src/main.ts",
         "tsConfig": "apps/server/tsconfig.app.json",
+        "generatePackageJson": true,
         "externalDependencies": "all",
         "assets": [
           "apps/server/src/assets"

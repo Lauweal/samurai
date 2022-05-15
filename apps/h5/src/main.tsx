@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import * as ReactDOMClient from 'react-dom/client';
 import * as Sentry from "@sentry/react";
-import { HttpClient, HttpClientPlugin } from '@samurai/http-client'
 import { BrowserTracing } from "@sentry/tracing";
 import Debug from 'vconsole'
 import App from './app/app';
@@ -18,8 +17,6 @@ Sentry.init({
   sendClientReports: true,
   attachStacktrace: true,
 });
-const client = new HttpClient({ protocol: 'http', host: 'localhost', port: 3333 })
-client.get('/api/auth/reloadToken')
 root.render(
   <StrictMode>
     <App />
