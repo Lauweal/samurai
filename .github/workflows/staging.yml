@@ -45,7 +45,7 @@ jobs:
         run: npm install --force
 
       - name: 🚀 从腾讯云下载环境变量
-        uses: Lauweal/tencent-cos-action@v1.0.2
+        uses: Lauweal/tencent-cos-action@v1.0.4
         with:
           type: 'download'
           secret_id: ${{ secrets.SECRET_ID }}
@@ -111,7 +111,7 @@ jobs:
         run: npm run build:server
 
       - name: 🚀 从腾讯云下载待上传服务器的环境变量
-        uses: Lauweal/tencent-cos-action@v1.0.2
+        uses: Lauweal/tencent-cos-action@v1.0.4
         with:
           type: 'download'
           secret_id: ${{ secrets.SECRET_ID }}
