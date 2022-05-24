@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, types } from 'mobx-state-tree';
-import { defaultEnv } from '../../hooks';
+import { defaultEnv } from '../environment';
 import { AccountModel } from '../account/account'
 import { withEnvironment } from '../extensions/with-environment';
 import { SettingsModel } from '../settings/settings'

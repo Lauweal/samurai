@@ -78,7 +78,7 @@ export const SignIn: FC<NativeStackScreenProps<NavigatorParamList, 'SignIn'>> =
         subtitle={translate('auth.sign-in.description') as string}
       >
         <Input
-          type="email-address"
+          type="default"
           errorMsg={errors.account}
           label={translate('auth.sign-in.accountLabel') as string}
           placeholder={translate('auth.sign-in.account') as string}

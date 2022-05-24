@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Transaction, Span, Client } from '@sentry/types';
+import { IHttpClientPlugin } from './http-plugin'
 export type Protocol = "http" | "https"
-import * as Sentry from '@sentry/browser'
 
 export type HttpClientOption = {
   host: string
@@ -9,58 +8,7 @@ export type HttpClientOption = {
   port?: number
 }
 
-export interface IHttpClientPlugin<T = any> {
-  request: (config: AxiosRequestConfig<T>) => AxiosRequestConfig<T>
-  response: <D = any>(res: AxiosResponse<D, T>) => AxiosResponse<D, T>
-}
-export class HttpClientPlugin<T = any> implements IHttpClientPlugin<T> {
-  private transaction!: Transaction;
-  constructor(private readonly sentry?: any) {
-    this.transaction = Sentry.startTransaction({
-      name: 'http.client',
-      op: 'http.request',
-    })
-    sentry.getCurrentHub().configureScope((scope: { setSpan: (arg0: Transaction) => any; }) => scope.setSpan(this.transaction))
-  }
-
-  private span: Span[] = []
-
-  request(config: AxiosRequestConfig<any>): AxiosRequestConfig<any> {
-    const method = config.method?.toUpperCase()
-    const span = this.transaction?.startChild({
-      op: method,
-      description: config.url
-    });
-    config.headers = { ...config.headers, traceId: span?.traceId as string }
-    span?.setTag("http.method", method);
-    if (method === 'GET') {
-      span?.setData('query', config.params);
-    }
-    if (method === 'POST') {
-      span?.setData('body', config.params);
-    }
-    this.span.push(span as Span)
-    return config
-  }
-
-  response<D = any>(res: AxiosResponse<D, T>) {
-    const span = this.span.find((s) => {
-      return s.traceId == res.config.headers!['traceId']
-    }) as Span
-    if (this.transaction && span) {
-      span.setData("response", res.data);
-      span.setTag("http.status", res.status);
-      span.finish()
-      this.transaction?.finish()
-    }
-    return res
-  }
-
-  catch() { }
-}
-
 export class HttpClient {
-  private transaction!: Transaction;
   private static client: HttpClient;
   constructor(private readonly options: HttpClientOption) {
     return this.createClient()
@@ -81,24 +29,50 @@ export class HttpClient {
       baseURL: this.analysisURL()
     })
     HttpClient.client.client.interceptors.request.use((config) => {
-
-      const _config = this.plugins.reduce((a, b) => b.request(a), config)
+      const _config = this.plugins.reduce((a, b) => {
+        if (typeof b.request === 'function') return b.request(a);
+        return a
+      }, config)
       return _config
     })
     HttpClient.client.client.interceptors.response.use((res) => {
-      return this.plugins.reduce((a, b) => b.response(a), res)
+      return this.plugins.reduce((a, b) => {
+        if (typeof b.response === 'function') return b.response(a);
+        return a
+      }, res)
     }, (error): any => {
-      console.log(this.plugins, '========> plugins')
-      if (error.response) {
-        return this.plugins.reduce((a: AxiosResponse<any, any>, b) => {
-          a.config = error.config
-          return b.response(a)
-        }, error.response)
+      const { response = {}, message, code, config = {} } = error;
+      console.log(response, code, message, error)
+      const _response: AxiosResponse<any, any> = {
+        status: response.status,
+        statusText: response.status,
+        data: {
+          message: response.message,
+          data: null,
+          code,
+        },
+        headers: config.headers,
+        config,
       }
-      return null
+      if (['ERR_NETWORK'].includes(error.code)) {
+        _response.status = 500;
+        _response.statusText = '500';
+        _response.data.message = '网络异常';
+        _response.data.code = -1;
+      }
+      return this.plugins.reduce((a: AxiosResponse<any, any>, b) => {
+        if (typeof b.response === 'function') return b.response(a);
+        return a
+      }, _response)
     })
     this.client = HttpClient.client.client
     return HttpClient.client;
+  }
+
+  getPlugin<T = IHttpClientPlugin>(plugin: Function): T | IHttpClientPlugin | undefined {
+    const _plugin = this.plugins.find((pl) => pl.constructor === plugin);
+    if (!_plugin) return undefined
+    return _plugin;
   }
 
   use(plugin: IHttpClientPlugin) {

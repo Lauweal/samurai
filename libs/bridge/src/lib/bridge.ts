@@ -19,11 +19,32 @@ export type Message = {
   payload: any
 }
 
+export interface IBridge {
+  subscription: (method: BridgeEventType, callback: (data: Message) => void | null) => (data: Message) => void | null
+  send: (method: BridgeEventType, payload?: any) => Promise<unknown>
+  publish: (data: Message) => void
+}
+
 const callbacks: Record<string, (data: any) => void | null> = {}
 const subscriptionEvents: Record<string, (data: Message) => void | null> = {}
 
-export function createBridge(client: any) {
-  return function send(method: BridgeEventType, payload?: any) {
+export function createBridge(client: any): IBridge {
+  function subscription(method: BridgeEventType, callback: (data: Message) => void | null) {
+    if (window && (window as any).subscriptionEvents) {
+      return (window as any).subscriptionEvents[method] = callback
+    }
+    return subscriptionEvents[method] = callback
+  }
+
+  function publish(data: Message) {
+    if (window && (window as any).subscriptionEvents) {
+      (window as any).subscriptionEvents[data.method](data)
+    }
+    if (subscriptionEvents[data.method]) {
+      subscriptionEvents[data.method](data)
+    }
+  }
+  function send(method: BridgeEventType, payload?: any) {
     const time = new Date().getTime();
     const event = `${method}_${time}`;
     if (!client) return Promise.resolve(null)
@@ -45,22 +66,7 @@ export function createBridge(client: any) {
       }
     })
   }
-}
-
-export function subscription(method: BridgeEventType, callback: (data: Message) => void | null) {
-  if (window && (window as any).subscriptionEvents) {
-    return (window as any).subscriptionEvents[method] = callback
-  }
-  return subscriptionEvents[method] = callback
-}
-
-export function publish(data: Message) {
-  if (window && (window as any).subscriptionEvents) {
-    (window as any).subscriptionEvents[data.method](data)
-  }
-  if (subscriptionEvents[data.method]) {
-    subscriptionEvents[data.method](data)
-  }
+  return { send, publish, subscription }
 }
 
 export function getStatusBarHeight(): number {

@@ -60,6 +60,7 @@ export class AuthController {
   @UseGuards(SessionGuard)
   async reloadToken(@Request() req: any) {
     const { passport } = req.session;
+    console.log(req)
     return this.auth.login(passport.user);
   }
 }

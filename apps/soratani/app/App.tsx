@@ -18,15 +18,13 @@ import {
 import { fontsAssets } from '@samurai/design';
 import * as Sentry from 'sentry-expo'
 import { Notification } from './components';
-import { defaultEnv } from './hooks';
 
 const routingInstrumentation = new Sentry.Native.ReactNavigationInstrumentation()
 Sentry.init({
   enabled: true,
   dsn: 'https://e7e1134d699047119148c47074e715dc@o937351.ingest.sentry.io/6378982',
-  enableInExpoDevelopment: true,
+  enableInExpoDevelopment: false,
   enableNativeNagger: true,
-  debug: true,
   sendClientReports: true,
   maxCacheItems: 40,
   tracesSampleRate: 1.0,
@@ -53,13 +51,14 @@ function App() {
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY);
+  const [loaded] = Font.useFonts(fontsAssets)
   useEffect(() => {
     (async () => {
-      await Font.loadAsync(fontsAssets);
-      setupRootStore().then(setRootStore);
+      // await Font.loadAsync(fontsAssets);
+      await setupRootStore().then(setRootStore);
     })();
   }, []);
-  if (!rootStore || !isNavigationStateRestored) return null;
+  if (!loaded || !rootStore || !isNavigationStateRestored) return null;
   return (
     <RootStoreProvider value={rootStore as RootStore}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>

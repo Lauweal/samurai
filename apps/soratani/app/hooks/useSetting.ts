@@ -2,15 +2,7 @@ import { useFormik } from "formik"
 import { useStores, ISetting } from "apps/soratani/app/models"
 import { useNavigation, useRoute, NavigationProp } from "@react-navigation/native"
 import { NavigatorParamList } from "../navigators"
-
-export const defaultEnv: ISetting = {
-  server_host: '1.13.190.96',
-  server_port: '3333',
-  server_protocol: 'http',
-  web_host: '192.168.2.2',
-  web_protocol: 'http',
-  web_port: '4200'
-}
+import { defaultEnv } from "../models/environment"
 
 export function useEnvSetting(
   schema: any,

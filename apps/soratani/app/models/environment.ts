@@ -1,7 +1,17 @@
-import { environment } from 'apps/soratani/app/environments/environment'
-import { HttpClient, HttpClientPlugin } from '@samurai/http-client'
+import { HttpClient, SentryPlugin, NatificationPlugin } from '@samurai/http-client'
 import * as Sentry from 'sentry-expo'
 import { RootStore } from './root-store/root-store';
+import { ISetting } from './settings/settings';
+
+export const defaultEnv: ISetting = {
+  server_host: '1.13.190.96',
+  server_port: '3333',
+  server_protocol: 'http',
+  web_host: '192.168.2.2',
+  web_protocol: 'http',
+  web_port: '4200'
+}
+
 
 let ReactotronDev: any;
 if (__DEV__) {
@@ -24,7 +34,8 @@ export class Environment {
       host: rootStore.settings.server_host as string,
       port: Number(rootStore.settings.server_port)
     })
-    this.api.use(new HttpClientPlugin(Sentry.Browser))
+    this.api.use(new SentryPlugin(Sentry.Browser))
+    this.api.use(new NatificationPlugin())
   }
 
   reactotron: typeof ReactotronDev;

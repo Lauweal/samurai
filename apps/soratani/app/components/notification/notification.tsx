@@ -1,10 +1,9 @@
 
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import { BlurView } from 'expo-blur';
 import { View, Text, StyleSheet, Modal } from 'react-native';
 import { fonts, palette, sizes } from '@samurai/design';
-import { useStores } from '../../models';
-import { Icons, IconType } from '../icons';
+import { Icons } from '../icons';
 
 
 const styles = StyleSheet.create({
@@ -68,7 +67,6 @@ export const NotificationContext = createContext<INotificationContext>({
 
 export function Notification(props: NotificationProps) {
   const [message, setMessage] = useState<INotificationPayload | undefined>()
-  const { environment } = useStores()
   const dispatch = (payload: INotificationPayload) => {
     setMessage(payload);
   }
@@ -76,23 +74,6 @@ export function Notification(props: NotificationProps) {
   const close = () => {
     setMessage(undefined)
   }
-
-  useEffect(() => {
-    environment.api.use({
-      request: (config) => {
-        return config
-      },
-      response: (res) => {
-        if (Number(res.status) > 300) {
-          setMessage({
-            type: 'error',
-            title: (res.data as any).message
-          })
-        }
-        return res
-      }
-    })
-  }, [])
 
   return (
     <NotificationContext.Provider value={{ dispatch }}>

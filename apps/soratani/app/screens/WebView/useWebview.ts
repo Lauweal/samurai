@@ -1,17 +1,17 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { BridgeEventType, createBridge, Message, MessageEvent, publish, subscription } from "@samurai/bridge";
+import { BridgeEventType, createBridge, IBridge, Message, MessageEvent, publish, subscription } from "@samurai/bridge";
 import { useCallback, useEffect, useRef } from "react";
 import { Animated, Easing } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import * as Haptics from 'expo-haptics'
 import { NavigatorParamList } from "apps/soratani/app/navigators";
-import { injectedJavaScriptCode } from "./injectedJavaScriptCode";
+import { injectedJavaScriptCode } from "./JavaScriptCode";
 
 
 export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'WebBox' | 'Protocol'>) {
   const web = useRef<WebView>()
-  const bridge = useRef<(method: BridgeEventType, payload?: any) => Promise<any>>()
+  const bridge = useRef<IBridge>()
   const inset = useSafeAreaInsets()
   const progress = useRef(new Animated.Value(0))
   const animated = useRef(Animated.loop(Animated.timing(progress.current, {
@@ -44,9 +44,7 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
   }, [web.current])
 
   const call = useCallback((method: BridgeEventType, payload?: any) => {
-    if (bridge.current) {
-      bridge.current(method, payload)
-    }
+    bridge.current?.send(method, payload)
   }, [bridge.current])
 
 
@@ -59,7 +57,6 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
     if (payload === 'BUTTON') {
       Haptics.selectionAsync()
     }
-    console.log(data)
   }
 
   useEffect(() => {

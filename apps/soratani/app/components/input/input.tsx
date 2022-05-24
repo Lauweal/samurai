@@ -51,9 +51,12 @@ export function Input(props: InputProps) {
           placeholderTextColor={palette.text_2}
           secureTextEntry={type === 'password'}
           keyboardType={type === 'password' ? 'default' : type as any}
-          autoCompleteType="off"
-          textContentType={type === 'password' ? 'newPassword' : 'none'}
+          textContentType={type === 'password' ? 'oneTimeCode' : 'none'}
           autoCapitalize="none"
+          autoComplete='off'
+          returnKeyType="done"
+          autoCorrect={false}
+          importantForAutofill="no"
           maxLength={maxLength}
           onChangeText={(text) => onChange(text)}
         />
