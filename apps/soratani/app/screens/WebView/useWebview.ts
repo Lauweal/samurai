@@ -60,11 +60,9 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
   }
 
   useEffect(() => {
-    if (web.current && !bridge.current) {
-      bridge.current = createBridge(web.current)
-      subscription('BACK', goBack)
-      subscription('SHAKE', shake)
-    }
+    bridge.current = createBridge(web.current)
+    subscription('BACK', goBack)
+    subscription('SHAKE', shake)
 
     return () => {
       stopAnimation();
