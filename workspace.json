@@ -2,7 +2,6 @@
   "version": 2,
   "projects": {
     "bridge": "libs/bridge",
-    "common": "libs/common",
     "database": "libs/database",
     "design": "libs/design",
     "h5": "apps/h5",
@@ -10,7 +9,6 @@
     "http-client": "libs/http-client",
     "interfaces": "libs/interfaces",
     "models": "libs/models",
-    "modules": "libs/modules",
     "redis": "libs/redis",
     "server": "apps/server",
     "soratani": "apps/soratani",

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { SessionGuard } from '@samurai/common';
+import { SessionGuard } from '../../guards';
 import { QueryAccountDto } from '@samurai/models';
 import { promisify } from 'util';
 import { Request as IRequest } from 'express';

@@ -33,6 +33,7 @@ export class SessionGuard extends AuthGuard('jwt') {
     await super.canActivate(context);
     const user = this.getSession(context);
     if (!user) throw new HttpException('请登录', HttpStatus.UNAUTHORIZED);
+    await this.resetLogin(context);
     return true;
   }
 }

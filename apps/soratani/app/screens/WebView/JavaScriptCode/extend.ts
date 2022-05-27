@@ -6,12 +6,12 @@ export function http(token?: string) {
     console.log(localStorage.setItem)
     localStorage.setItem('token', "${token}");
     const open = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function () {
-      console.log(arguments, this.setRequestHeader);
-      // this.setRequestHeader('client', 'app');
-      open.apply(this, arguments);
-      this.setRequestHeader("authorization", "Bearer ${token}");
-    };
+    // XMLHttpRequest.prototype.open = function () {
+    //   console.log(arguments, this.setRequestHeader);
+    //   // this.setRequestHeader('client', 'app');
+    //   open.apply(this, arguments);
+    //   this.setRequestHeader("authorization", "Bearer ${token}");
+    // };
   `
 }
 

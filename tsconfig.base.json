@@ -21,9 +21,6 @@
       "@samurai/bridge": [
         "libs/bridge/src/index.ts"
       ],
-      "@samurai/common": [
-        "libs/common/src/index.ts"
-      ],
       "@samurai/database": [
         "libs/database/src/index.ts"
       ],
@@ -38,9 +35,6 @@
       ],
       "@samurai/models": [
         "libs/models/src/index.ts"
-      ],
-      "@samurai/modules": [
-        "libs/modules/src/index.ts"
       ],
       "@samurai/redis": [
         "libs/redis/src/index.ts"

@@ -10,7 +10,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RedisService } from '@samurai/redis';
 import * as cookieParser from 'cookie-parser'
-import { HttpExceptionFilter } from '@samurai/common'
+import { HttpExceptionFilter } from './exceptions'
 import { ConfigService } from '@nestjs/config';
 
 export async function bootstrap() {
@@ -32,7 +32,7 @@ export async function bootstrap() {
     origin: "*",
     credentials: true
   })
-  console.log(process.env.NODE_ENV)
+
   app.use(cookieParser())
   app.use(
     session({
