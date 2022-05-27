@@ -2,7 +2,6 @@ import { BridgeEvent, MessageEvent } from "@samurai/bridge";
 
 export function historyGo() {
   return `
-    (function() {
       const go = window.history.go;
       // 对浏览器的go 方法兼容，在h5内使用无感知
       window.history.go = (a) => {
@@ -16,7 +15,6 @@ export function historyGo() {
         } else {
           go.call(window.history,a)
         }
-      }
-    })()
+      };
   `;
 }

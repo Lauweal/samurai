@@ -25,8 +25,14 @@ export class HttpClient {
 
   private createClient() {
     if (!HttpClient.client) { HttpClient.client = this }
+    // axios.defaults.withCredentials = true;
     HttpClient.client.client = axios.create({
-      baseURL: this.analysisURL()
+      baseURL: this.analysisURL(),
+      withCredentials: true,
+
+      headers: {
+        authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiYWFhYzdlZTctMTEyZC00ZTliLTlhYjktYzE2NTAxZGUzMWQ0IiwiYWNjb3VudCI6ImxlbW9ucGFpbWNAMTI2LmNvbSIsInBhc3N3b3JkIjoiREZBQTZBOThBQjgxRDdCRURFMTBCOUMzMTM4NDAxMjYiLCJwaG9uZSI6IiIsImVtYWlsIjoiIn0sImlhdCI6MTY1MzQ2MzY1Mn0.ERg9tXxWxIKASvJWtYHjZ4zpdCyssOU7T7RpJq_e6B4'
+      }
     })
     HttpClient.client.client.interceptors.request.use((config) => {
       const _config = this.plugins.reduce((a, b) => {
@@ -34,15 +40,17 @@ export class HttpClient {
         return a
       }, config)
       return _config
+    }, (err) => {
+      console.log(err)
     })
-    HttpClient.client.client.interceptors.response.use((res) => {
+    HttpClient.client.client.interceptors.response.use((res: any) => {
+      console.log(res.headers, '====>')
       return this.plugins.reduce((a, b) => {
         if (typeof b.response === 'function') return b.response(a);
         return a
       }, res)
     }, (error): any => {
       const { response = {}, message, code, config = {} } = error;
-      console.log(response, code, message, error)
       const _response: AxiosResponse<any, any> = {
         status: response.status,
         statusText: response.status,

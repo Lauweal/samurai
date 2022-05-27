@@ -67,9 +67,11 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox' | 'P
           style={styles.webview}
           injectedJavaScript={code}
           javaScriptEnabled={true}
+          sharedCookiesEnabled
+          thirdPartyCookiesEnabled
           originWhitelist={['https://*', 'git://*', 'http://*']}
           onMessage={onMessage}
-          source={{ uri: props.route.params?.uri as string }}
+          source={{ uri: 'http://127.0.0.1:4200' }}
           onLoadStart={startAnimation}
           onLoadEnd={stopAnimation}
           renderLoading={renderLoading}

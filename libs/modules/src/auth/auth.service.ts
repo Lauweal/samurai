@@ -6,6 +6,7 @@ import { Account } from '@samurai/database';
 import { Repository } from 'typeorm';
 import * as CryptoJS from 'crypto-js';
 import { IAccount } from '@samurai/interfaces';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    return this.jwt.signAsync(user, { secret: this.config.get('JWT_SECRET') });
+    return this.jwt.signAsync(user, { secret: this.config.get('JWT_SECRET'), expiresIn: "7d" });
   }
 
   async sigin(_account: string, _password: string) {

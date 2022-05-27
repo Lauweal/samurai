@@ -51,14 +51,14 @@ function App() {
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY);
-  const [loaded] = Font.useFonts(fontsAssets)
+  // const [loaded] = Font.useFonts(fontsAssets)
   useEffect(() => {
     (async () => {
       // await Font.loadAsync(fontsAssets);
       await setupRootStore().then(setRootStore);
     })();
   }, []);
-  if (!loaded || !rootStore || !isNavigationStateRestored) return null;
+  if (!rootStore || !isNavigationStateRestored) return null;
   return (
     <RootStoreProvider value={rootStore as RootStore}>
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>

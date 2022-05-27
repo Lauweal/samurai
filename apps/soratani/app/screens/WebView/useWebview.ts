@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { BridgeEventType, createBridge, IBridge, Message, MessageEvent, publish, subscription } from "@samurai/bridge";
+import { BridgeEventType, createBridge, IBridge, Message, MessageEvent } from "@samurai/bridge";
 import { useCallback, useEffect, useRef } from "react";
 import { Animated, Easing } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,7 +22,6 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
     useNativeDriver: false
   })))
   const code = injectedJavaScriptCode(inset, native.route.params?.token)
-
   const startAnimation = () => {
     animated.current.start();
   }
@@ -33,13 +32,12 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
   }
 
   const onMessage = useCallback((events: WebViewMessageEvent) => {
-
     const { event, type, method, payload } = JSON.parse(events.nativeEvent.data)
     if (web.current && type === MessageEvent.request) {
       return web.current.injectJavaScript(`window.${event}(${JSON.stringify({ event, method, type: MessageEvent.response, payload })})`)
     }
     if (type === MessageEvent.response) {
-      return publish({ event, type, method, payload })
+      return bridge.current!.publish({ event, type, method, payload })
     }
   }, [web.current])
 
@@ -61,15 +59,14 @@ export function useWebView(native: NativeStackScreenProps<NavigatorParamList, 'W
 
   useEffect(() => {
     bridge.current = createBridge(web.current)
-    subscription('BACK', goBack)
-    subscription('SHAKE', shake)
+    bridge.current!.subscription('BACK', goBack)
+    bridge.current!.subscription('SHAKE', shake)
 
     return () => {
       stopAnimation();
       if (web.current) {
         (web.current as any).clearCache();
         (web.current as any).clearHistory();
-        (web.current as any).componentWillUnmount();
         (web.current as any) = null;
       }
     }

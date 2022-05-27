@@ -9,6 +9,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RedisService } from '@samurai/redis';
+import * as cookieParser from 'cookie-parser'
 import { HttpExceptionFilter } from '@samurai/common'
 import { ConfigService } from '@nestjs/config';
 
@@ -25,14 +26,23 @@ export async function bootstrap() {
   const globalPrefix = 'api';
   const redis = app.get(RedisService);
   const config = app.get(ConfigService);
+
   app.setGlobalPrefix(globalPrefix);
+  app.enableCors({
+    origin: "*",
+    credentials: true
+  })
+  console.log(process.env.NODE_ENV)
+  app.use(cookieParser())
   app.use(
     session({
       secret: config.get('SESSION_SECRET'),
-      resave: true,
-      saveUninitialized: true,
+      resave: false,
+      saveUninitialized: false,
       store: new RedisStore({ client: redis.getClient('session') }),
       cookie: {
+        sameSite: false,
+        httpOnly: true,
         maxAge: Number(config.get('SESSION_MAX_AGE')),
       },
     })

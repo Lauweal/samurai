@@ -16,20 +16,15 @@
         "generatePackageJson": true,
         "externalDependencies": "all",
         "assets": [
-          "apps/server/src/assets"
+          "apps/server/src/assets",
+          "apps/server/src/environments"
         ]
       },
       "configurations": {
         "production": {
           "optimization": true,
           "extractLicenses": true,
-          "inspect": false,
-          "fileReplacements": [
-            {
-              "replace": "apps/server/src/environments/environment.ts",
-              "with": "apps/server/src/environments/environment.prod.ts"
-            }
-          ]
+          "inspect": false
         }
       }
     },

@@ -1,3 +1,5 @@
+import { Platform } from "./base.interface";
+
 export interface IAccount {
   account: string;
   password: string;
@@ -14,8 +16,8 @@ export interface ISession {
     phone?: string;
     email?: string;
   };
-  platform: string | string[];
-  fingerprint: string | string[];
+  platform: Platform;
+  fingerprint: string;
 }
 
 export interface IToken extends ISession { }

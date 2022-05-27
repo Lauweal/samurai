@@ -27,12 +27,6 @@
       },
       "configurations": {
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/h5/src/environments/environment.ts",
-              "with": "apps/h5/src/environments/environment.prod.ts"
-            }
-          ],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -47,6 +41,7 @@
       "options": {
         "buildTarget": "h5:build",
         "hmr": true,
+        "proxyConfig": "apps/h5/proxy.conf.json",
         "host": "0.0.0.0"
       },
       "configurations": {

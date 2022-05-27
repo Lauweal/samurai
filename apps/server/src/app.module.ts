@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from '@samurai/modules'
 import { resolve } from 'path';
 import { RedisModule } from '@samurai/redis';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from '@samurai/database';
+import { AuthModule } from './modules';
+
+console.log(process.env.NODE_ENV)
+
+const envFilePath = resolve(__dirname, 'environments', `${process.env.NODE_ENV}.env`)
+console.log(envFilePath)
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: resolve(
-        __dirname,
-        'config',
-        `${process.env.NODE_ENV}.env`
-      ),
+      envFilePath,
       ignoreEnvFile: false,
       isGlobal: true,
     }),
