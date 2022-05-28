@@ -1,6 +1,6 @@
 const getWebpackConfig = require('@nrwl/react/plugins/webpack')
 const { merge } = require('webpack-merge');
-console.log(process.env.NODE_ENV);
+
 module.exports = (config, context) => {
   return merge(getWebpackConfig(config), {
     module: {

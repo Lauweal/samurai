@@ -7,7 +7,7 @@ export const Home = (props: any) => {
     window.history.back()
   }
   return (
-    <div style={{ paddingTop: `${getStatusBarHeight()}px` }}>
+    <div style={{ paddingTop: `${getStatusBarHeight()}px`, height: '1000px' }}>
       <button style={{ width: '100px', height: '100px', background: '#ddd' }} onClick={() => navigate('/user/we')}>1</button>
       <div style={{ width: '100px', height: '100px', background: '#ddd' }} onClick={() => navigate(-1)}>2</div>
     </div>

@@ -4,7 +4,7 @@ import {
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
 import * as storage from 'apps/soratani/app/utils/storage';
-import * as Font from 'expo-font';
+import { loadAsync } from 'expo-font';
 import {
   AppNavigator,
   useNavigationPersistence,
@@ -51,10 +51,10 @@ function App() {
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY);
-  // const [loaded] = Font.useFonts(fontsAssets)
+
   useEffect(() => {
     (async () => {
-      // await Font.loadAsync(fontsAssets);
+      await loadAsync(fontsAssets)
       await setupRootStore().then(setRootStore);
     })();
   }, []);

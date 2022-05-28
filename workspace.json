@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "bridge": "libs/bridge",
+    "components": "libs/components",
     "database": "libs/database",
     "design": "libs/design",
     "h5": "apps/h5",

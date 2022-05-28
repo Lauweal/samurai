@@ -33,6 +33,7 @@ export const palette = {
   text_2: '#1c1f2399',
   text_3: '#1c1f2359',
   border: '#1c1f2314',
+  boxShadow: '#0E0E0E40',
   danger: '#f93920',
   danger_hover: '#d52515',
   danger_active: '#b2140c',

@@ -5,6 +5,7 @@ import React from 'react';
 import { View, StyleSheet, Image, ViewStyle, Text, TouchableOpacity } from 'react-native';
 import { imagesAssets } from '@samurai/design';
 import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNotification } from '../../hooks/useNotification';
 
 const { height } = Dimensions.get('window');
 
@@ -37,6 +38,8 @@ export function AuthLayout(props: Props) {
   const onPress = () => {
     navigation.dispatch(CommonActions.navigate('env'))
   }
+
+  useNotification()
 
   return (
     <Screen preset="scroll">

@@ -29,10 +29,6 @@ export class HttpClient {
     HttpClient.client.client = axios.create({
       baseURL: this.analysisURL(),
       withCredentials: true,
-
-      headers: {
-        authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50Ijp7ImlkIjoiYWFhYzdlZTctMTEyZC00ZTliLTlhYjktYzE2NTAxZGUzMWQ0IiwiYWNjb3VudCI6ImxlbW9ucGFpbWNAMTI2LmNvbSIsInBhc3N3b3JkIjoiREZBQTZBOThBQjgxRDdCRURFMTBCOUMzMTM4NDAxMjYiLCJwaG9uZSI6IiIsImVtYWlsIjoiIn0sImlhdCI6MTY1MzQ2MzY1Mn0.ERg9tXxWxIKASvJWtYHjZ4zpdCyssOU7T7RpJq_e6B4'
-      }
     })
     HttpClient.client.client.interceptors.request.use((config) => {
       const _config = this.plugins.reduce((a, b) => {
@@ -44,7 +40,6 @@ export class HttpClient {
       console.log(err)
     })
     HttpClient.client.client.interceptors.response.use((res: any) => {
-      console.log(res.headers, '====>')
       return this.plugins.reduce((a, b) => {
         if (typeof b.response === 'function') return b.response(a);
         return a
@@ -55,9 +50,9 @@ export class HttpClient {
         status: response.status,
         statusText: response.status,
         data: {
-          message: response.message,
-          data: null,
-          code,
+          message: response ? response.data.message : message,
+          data: response ? response.data.data : null,
+          code: response ? response.data.code : code,
         },
         headers: config.headers,
         config,

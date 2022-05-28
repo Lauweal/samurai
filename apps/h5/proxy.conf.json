@@ -1,6 +1,0 @@
-{
-  "/api": {
-    "target": "http://www.nephalem-ui.cn",
-    "secure": false
-  }
-}

@@ -15,6 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   //token验证, payload是super中已经解析好的token信息
   async validate(payload: any, req) {
+
     if (payload && payload.account) return payload
     return undefined;
   }

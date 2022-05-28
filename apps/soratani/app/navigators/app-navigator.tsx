@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { OnBoarding, WebBox, SignUp, SignIn, EnvSetting } from 'apps/soratani/app/screens';
 import { navigationRef } from './navigation-utilities';
 import { useStores } from '../models';
+import { useColorScheme, Appearance } from 'react-native';
 
 export type NavigatorParamList = {
   OnBoarding: undefined;
@@ -25,11 +26,11 @@ interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> { }
 
 export const AppNavigator = (props: NavigationProps) => {
-  // const colorScheme = useColorScheme();
+  const colorScheme = Appearance.getColorScheme();
   return (
     <NavigationContainer
       ref={navigationRef}
-      // theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
       {...props}
     >
       <Stack.Navigator

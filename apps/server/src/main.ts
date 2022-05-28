@@ -12,6 +12,7 @@ import { RedisService } from '@samurai/redis';
 import * as cookieParser from 'cookie-parser'
 import { HttpExceptionFilter } from './exceptions'
 import { ConfigService } from '@nestjs/config';
+import { TransformInterceptor } from './interceptors';
 
 export async function bootstrap() {
   passport.serializeUser(function (user, done) {
@@ -33,7 +34,7 @@ export async function bootstrap() {
     credentials: true
   })
 
-  app.use(cookieParser())
+  // app.use(cookieParser())
   app.use(
     session({
       secret: config.get('SESSION_SECRET'),
@@ -49,6 +50,8 @@ export async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+
+  app.useGlobalInterceptors(new TransformInterceptor())
   app.useGlobalFilters(new HttpExceptionFilter())
 
 

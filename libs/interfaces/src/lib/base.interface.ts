@@ -4,3 +4,9 @@ export enum PlatformEnum {
   "web" = "web",
 }
 export type Platform = keyof typeof PlatformEnum;
+
+export interface Response<T> {
+  code: number;
+  data: T;
+  message: string
+}

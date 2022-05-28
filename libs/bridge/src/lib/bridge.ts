@@ -1,7 +1,8 @@
 export enum BridgeEvent {
   BACK = 'BACK',
   OPEN_MODAL = 'OPEN_MODAL',
-  SHAKE = 'SHAKE'
+  SHAKE = 'SHAKE',
+  THEME = 'THEME'
 }
 
 
@@ -47,8 +48,9 @@ export function createBridge(client: any): IBridge {
   function send(method: BridgeEventType, payload?: any) {
     const time = new Date().getTime();
     const event = `${method}_${time}`;
+    const postMessage = client.ReactNativeWebView ? client.ReactNativeWebView.postMessage : client.postMessage;
     if (!client) return Promise.resolve(null)
-    client.postMessage(JSON.stringify({
+    postMessage(JSON.stringify({
       method, event, type: MessageEvent.request, payload
     }));
     if (window) {
@@ -69,6 +71,11 @@ export function createBridge(client: any): IBridge {
   return { send, publish, subscription }
 }
 
-export function getStatusBarHeight(): number {
-  return (window as any).StatusBar || 0
+export function getStatusBarHeight(number?: number): number {
+  const top = number || 0;
+  return ((window as any).StatusBar + top) || 0
+}
+
+export function getTheme(): 'light' | 'dark' {
+  return ((window as any).theme) || 'light';
 }

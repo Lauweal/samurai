@@ -1,18 +1,12 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import home from './conatiners/Home/router';
 import user from './conatiners/User/router';
 import { Navigator } from '../navigators';
+import { GlobalStyle } from '@samurai/components';
 
 const StyledApp = styled.div`
-  // Your style here
+  min-height: 100vh;
 `;
-
-const GlobalStyle = createGlobalStyle`
-  html,body{
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  }
-`
 
 export function App() {
   return (

@@ -5,7 +5,7 @@ import { NavigatorParamList } from 'apps/soratani/app/navigators'
 import { Screen } from 'apps/soratani/app/components'
 import { observer } from 'mobx-react-lite'
 import LottieLoader from 'lottie-react-native'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Appearance } from 'react-native'
 import { palette } from '@samurai/design'
 import { useStores } from 'apps/soratani/app/models'
 import { useWebView } from './useWebview';
@@ -34,15 +34,17 @@ const styles = StyleSheet.create({
   },
   webview: {
     flex: 1,
-    backgroundColor: palette.bg
+    backgroundColor: palette.text_3
   }
 })
 
 export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox' | 'Protocol'>> = observer(function WebBox(props) {
-  const { web, progress, code, startAnimation, stopAnimation, call, onMessage, } = useWebView(props)
+  const { web, progress, code, startAnimation, stopAnimation, onMessage, } = useWebView(props)
   const { account } = useStores()
   useEffect(() => {
-    account.reloadToken()
+    if (!account.token) {
+      account.reloadToken()
+    }
   }, [])
 
   const renderLoading = useCallback(() => {
@@ -69,9 +71,10 @@ export const WebBox: FC<NativeStackScreenProps<NavigatorParamList, 'WebBox' | 'P
           javaScriptEnabled={true}
           sharedCookiesEnabled
           thirdPartyCookiesEnabled
+          scrollEnabled={false}
           originWhitelist={['https://*', 'git://*', 'http://*']}
           onMessage={onMessage}
-          source={{ uri: 'http://127.0.0.1:4200' }}
+          source={{ uri: 'http://192.168.2.3:4200' }}
           onLoadStart={startAnimation}
           onLoadEnd={stopAnimation}
           renderLoading={renderLoading}

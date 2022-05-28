@@ -1,11 +1,11 @@
 import { RouterConfig } from '../../../navigators'
-import { MainLayout } from '../../../layouts'
+import { UserLayout } from '../../../layouts'
 import { User } from './User'
 
 const routers: RouterConfig[] = [
   {
     path: '/user',
-    component: MainLayout,
+    component: UserLayout,
     children: [{
       path: 'we',
       component: User

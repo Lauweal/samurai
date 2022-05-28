@@ -36,16 +36,16 @@ export const AccountModel = types
     const api = new AccountApi(self.environment.api as any)
     return {
       login: async (account: IAccount) => {
-        return await api.login(account).then((token) => self.saveToken(account.account, token))
+        return await api.login(account).then((data) => self.saveToken(account.account, data?.data))
       },
       sigin: async (account: IAccount) => {
-        return await api.sigin(account).then((token) => self.saveToken(account.account, token))
+        return await api.sigin(account).then((data) => self.saveToken(account.account, data?.data))
       },
       hasAccount: debounce(async (account: string) => {
         return await api.hasAccount(account)
       }, 300),
       reloadToken: () => {
-        return api.reloadToken().then((token) => self.saveToken(self.account as string, token))
+        return api.reloadToken().then((data) => self.saveToken(self.account as string, data?.data))
       }
     }
   }) // eslint-disable-line @typescript-eslint/no-unused-vars

@@ -41,7 +41,7 @@
       "options": {
         "buildTarget": "h5:build",
         "hmr": true,
-        "proxyConfig": "apps/h5/proxy.conf.json",
+        "proxyConfig": "apps/h5/proxy.conf.js",
         "host": "0.0.0.0"
       },
       "configurations": {

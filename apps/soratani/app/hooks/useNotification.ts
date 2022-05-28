@@ -9,7 +9,13 @@ export function useNotification() {
   const { environment } = useStores()
 
   function error(res: any) {
-    console.log('======>', res)
+    const { status, data: { message } } = res
+    if (status === 401) {
+      dispatch({
+        type: 'error',
+        title: message
+      })
+    }
   }
 
   useEffect(() => {
