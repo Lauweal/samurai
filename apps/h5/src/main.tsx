@@ -3,7 +3,7 @@ import * as ReactDOMClient from 'react-dom/client';
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import Debug from 'vconsole'
-import App from './app/app';
+import App from './app';
 const debug = new Debug()
 const root = ReactDOMClient.createRoot(
   document.getElementById('root') as HTMLElement

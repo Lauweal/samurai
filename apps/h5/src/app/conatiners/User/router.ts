@@ -7,7 +7,7 @@ const routers: RouterConfig[] = [
     path: '/user',
     component: UserLayout,
     children: [{
-      path: 'we',
+      path: '',
       component: User
     }]
   }

@@ -1,3 +1,4 @@
+export * from './lib/tabs/tabs';
 export * from './lib/avatar/avatar';
 export * from './lib/icon/icon';
 export * from './lib/theme/theme';
