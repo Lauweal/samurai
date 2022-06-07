@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { GlobalStyle, Theme } from '@samurai/components';
-import { home, user, chat } from './app/conatiners'
+import { home, user } from './app/conatiners'
 import { Navigator } from './navigators';
 
 const StyledApp = styled.div`
@@ -12,7 +12,7 @@ export function App() {
     <StyledApp>
       <GlobalStyle />
       <Theme>
-        <Navigator config={[...home, ...user, ...chat]} />
+        <Navigator config={[...home, ...user]} />
       </Theme>
     </StyledApp>
   );

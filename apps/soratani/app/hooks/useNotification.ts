@@ -19,12 +19,10 @@ export function useNotification() {
   }
 
   useEffect(() => {
-    const plugin = environment.api.getPlugin<NatificationPlugin>(NatificationPlugin) as NatificationPlugin;
-    if (plugin) {
-      plugin.addEventListener('error', error)
-    }
+    const plugin = environment.api.getPlugin<NatificationPlugin>(NatificationPlugin);
+    plugin?.addEventListener('error', error)
     return () => {
-      plugin.removeEventListener('error', error)
+      plugin?.removeEventListener('error', error)
     }
   }, [])
 

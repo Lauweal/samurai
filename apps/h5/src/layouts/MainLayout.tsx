@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { palette, sizes } from '@samurai/design'
 import { CaretLeftIcon, MagnifyingGlassIcon, PersonIcon, BellIcon } from '@radix-ui/react-icons'
 import styled from 'styled-components'
@@ -32,8 +32,8 @@ const StylePlus = styled.div`
 
 export function MainLayout() {
   const navigate = useNavigate()
+  const route = useLocation()
   const navigator = useRef<AppbarRef>({ height: 50 });
-
   function goHome() { navigate('/') }
   function goUser() { navigate('/user') }
   function goChat() { navigate('/chat') }
@@ -41,7 +41,7 @@ export function MainLayout() {
   return (
     <Layout>
       <Appbar ref={navigator as any} top={getStatusBarHeight()}>
-        <CaretLeftIcon stroke={palette.primary} width={30} height={30} onClick={() => navigate(-1)} />
+        {route.pathname !== '/' ? <CaretLeftIcon stroke={palette.primary} width={30} height={30} onClick={() => navigate(-1)} /> : <div />}
         <MagnifyingGlassIcon stroke={palette.primary} width={26} height={26} onClick={() => navigate(-1)} />
       </Appbar>
       <Content top={navigator.current?.height + 10}>

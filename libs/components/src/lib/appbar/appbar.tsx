@@ -7,7 +7,7 @@ export interface AppbarRef {
 
 /* eslint-disable-next-line */
 export interface AppbarProps {
-  children: JSX.Element | JSX.Element[]
+  children: JSX.Element | (JSX.Element | undefined)[] | undefined
 }
 
 interface StyleProps {

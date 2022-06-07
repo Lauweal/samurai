@@ -72,10 +72,10 @@ export class HttpClient {
     return HttpClient.client;
   }
 
-  getPlugin<T = IHttpClientPlugin>(plugin: Function): T | IHttpClientPlugin | undefined {
+  getPlugin<T = IHttpClientPlugin<any>>(plugin: Function): T | undefined {
     const _plugin = this.plugins.find((pl) => pl.constructor === plugin);
     if (!_plugin) return undefined
-    return _plugin;
+    return _plugin as any;
   }
 
   use(plugin: IHttpClientPlugin) {

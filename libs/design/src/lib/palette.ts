@@ -21,6 +21,7 @@ export const palette = {
   secondary_light_active: '#98cdfd',
   secondary_light_default: '#eaf5ff',
   bg: '#ffffff',
+  bg_1: '#F8F3F3',
   link: '#0077fa',
   link_hover: '#0062d6',
   link_active: '#004fb3',

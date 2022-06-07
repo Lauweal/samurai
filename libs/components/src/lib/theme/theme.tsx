@@ -30,7 +30,7 @@ export function Theme(props: ThemeProps) {
 
   return (
     <ThemeProvider theme={{
-      backgroundColor: theme === 'dark' ? palette.text_0 : palette.bg,
+      backgroundColor: theme === 'dark' ? palette.text_0 : palette.bg_1,
       spacing: {
         small: sizes.spacing_8,
         middle: sizes.spacing_16,

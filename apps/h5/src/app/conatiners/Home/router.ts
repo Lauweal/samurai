@@ -4,7 +4,7 @@ import { Home } from './Home';
 
 const routers: RouterConfig[] = [
   {
-    path: '/',
+    path: '',
     component: MainLayout,
     children: [{
       path: '',
