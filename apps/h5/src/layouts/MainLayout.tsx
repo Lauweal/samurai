@@ -21,14 +21,6 @@ const Content = styled.div<{ top?: number }>`
   overflow: scroll;
   &::-webkit-scrollbar {display:none}
 `
-const StylePlus = styled.div`
-  width: 30px;
-  height: 30px;
-  padding: 3px;
-  box-sizing: border-box;
-  background-color: ${palette.bg};
-  border-radius: 999px;
-`
 
 export function MainLayout() {
   const navigate = useNavigate()
