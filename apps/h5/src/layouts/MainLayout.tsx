@@ -25,18 +25,18 @@ const Content = styled.div<{ top?: number }>`
 export function MainLayout() {
   const navigate = useNavigate()
   const route = useLocation()
-  const navigator = useRef<AppbarRef>({ height: 50 });
+  const appbar = useRef<AppbarRef>({ height: 50 });
   function goHome() { navigate('/') }
-  function goUser() { navigate('/user') }
+  function goUser() { navigate('/user/info') }
   function goChat() { navigate('/chat') }
 
   return (
     <Layout>
-      <Appbar ref={navigator as any} top={getStatusBarHeight()}>
+      <Appbar ref={appbar as any} top={getStatusBarHeight()}>
         {route.pathname !== '/' ? <CaretLeftIcon stroke={palette.primary} width={30} height={30} onClick={() => navigate(-1)} /> : <div />}
         <MagnifyingGlassIcon stroke={palette.primary} width={26} height={26} onClick={() => navigate(-1)} />
       </Appbar>
-      <Content top={navigator.current?.height + 10}>
+      <Content top={appbar.current?.height + 10}>
         <Outlet />
       </Content>
       <Navigation fixed>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { GlobalStyle, Theme } from '@samurai/components';
-import { home, user } from './app/conatiners'
-import { Navigator } from './navigators';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { AllRoute } from './router'
 
 const StyledApp = styled.div`
   min-height: 100vh;
@@ -12,7 +12,9 @@ export function App() {
     <StyledApp>
       <GlobalStyle />
       <Theme>
-        <Navigator config={[...home, ...user]} />
+        <Router>
+          <AllRoute />
+        </Router>
       </Theme>
     </StyledApp>
   );

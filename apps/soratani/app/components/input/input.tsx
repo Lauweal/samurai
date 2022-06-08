@@ -46,19 +46,18 @@ export function Input(props: InputProps) {
         {isValidElement(prefix) && prefix}
         <TextInput
           style={{ flex: 1, letterSpacing: 1.4, fontWeight: "500", ...inputStyle }}
-          value={value}
+          defaultValue={value}
           placeholder={placeholder}
           placeholderTextColor={palette.text_2}
           secureTextEntry={type === 'password'}
           keyboardType={type === 'password' ? 'default' : type as any}
-          textContentType={type === 'password' ? 'oneTimeCode' : 'none'}
+          textContentType={type === 'password' ? 'oneTimeCode' : 'emailAddress'}
           autoCapitalize="none"
-          autoComplete='off'
           returnKeyType="done"
           autoCorrect={false}
           importantForAutofill="no"
           maxLength={maxLength}
-          onChangeText={(text) => onChange(text)}
+          onEndEditing={(e) => onChange(e.nativeEvent.text)}
         />
         {isValidElement(suffix) && suffix}
       </View>

@@ -1,6 +1,7 @@
 import { palette, sizes } from '@samurai/design';
+import { ForwardedRef, forwardRef, RefObject, useImperativeHandle, useRef } from 'react';
 import styled from 'styled-components';
-import { Item } from './item';
+import { Item, ItemProps } from './item';
 
 interface StyleProps {
   fixed?: boolean;
@@ -10,6 +11,10 @@ interface StyleProps {
 /* eslint-disable-next-line */
 export interface NavigationProps {
   children?: JSX.Element | JSX.Element[] | string
+}
+
+export interface NavigationRef {
+  height: number
 }
 
 const StyledNavigation = styled.div<StyleProps>`
@@ -29,15 +34,25 @@ const StyledNavigation = styled.div<StyleProps>`
   box-shadow: ${props => props.fixed ? `0px 0px 10px 1px #0e0e0e17` : null};
 `;
 
-export function Navigation(props: NavigationProps & StyleProps) {
+export const Navigation = forwardRef(function Navigation(props: NavigationProps & StyleProps, ref: ForwardedRef<NavigationRef>) {
   const { backgroundColor = '#332C2C88', fixed } = props;
+  const dom = useRef<HTMLDivElement>()
+
+  useImperativeHandle(ref, () => {
+
+    return {
+      height: dom.current?.clientHeight as number
+    }
+  }, [dom.current])
 
   return (
-    <StyledNavigation fixed={fixed} backgroundColor={backgroundColor}>
+    <StyledNavigation ref={dom as RefObject<HTMLDivElement>} fixed={fixed} backgroundColor={backgroundColor}>
       {props.children}
     </StyledNavigation>
   );
-}
+}) as React.ForwardRefExoticComponent<NavigationProps & StyleProps & React.RefAttributes<NavigationRef>> & {
+  Item: (props: ItemProps) => JSX.Element
+};
 
 Navigation.Item = Item
 

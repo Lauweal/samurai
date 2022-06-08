@@ -1,2 +1,2 @@
-export * from './AuthCard'
+export * from './User/AuthCard'
 export * from './BoxCard'

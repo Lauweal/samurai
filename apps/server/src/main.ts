@@ -5,16 +5,29 @@
 import * as passport from 'passport';
 import * as session from 'express-session';
 import * as connectRedis from 'connect-redis';
+import * as Sentry from "@sentry/node";
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { RedisService } from '@samurai/redis';
 import * as cookieParser from 'cookie-parser'
-import { HttpExceptionFilter } from './exceptions'
 import { ConfigService } from '@nestjs/config';
+import { HttpExceptionFilter } from './exceptions'
 import { TransformInterceptor } from './interceptors';
+import { AppModule } from './app.module';
+
 
 export async function bootstrap() {
+  Sentry.init({
+    dsn: 'https://bfe415cf349c48d0b5e168afb82c4fac@o937351.ingest.sentry.io/6483566',
+    tracesSampleRate: 1.0,
+    debug: true,
+    integrations: [
+      new Sentry.Integrations.Http({ tracing: true }),
+      new Sentry.Integrations.Console(),
+    ]
+  })
+
+
   passport.serializeUser(function (user, done) {
     done(null, user);
   });
@@ -34,7 +47,7 @@ export async function bootstrap() {
     credentials: true
   })
 
-  // app.use(cookieParser())
+  app.use(cookieParser())
   app.use(
     session({
       secret: config.get('SESSION_SECRET'),

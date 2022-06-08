@@ -7,6 +7,8 @@ export type Size = 'none' | 'small' | 'middle' | 'large' | 'super';
 export interface ITheme {
   backgroundColor: string
   spacing: Record<Size, number>
+  borderRadius: Record<Size, number>
+  boxShadow: string
 }
 
 /* eslint-disable-next-line */
@@ -37,7 +39,15 @@ export function Theme(props: ThemeProps) {
         large: sizes.spacing_24,
         super: sizes.spacing_32,
         none: sizes.spacing_0,
-      }
+      },
+      borderRadius: {
+        small: sizes.spacing_8,
+        middle: sizes.spacing_12,
+        large: sizes.spacing_16,
+        super: sizes.spacing_24,
+        none: sizes.spacing_0,
+      },
+      boxShadow: `0px 0px 10px 1px ${palette.boxShadow}`
     }}>
       {props.children}
     </ThemeProvider>
