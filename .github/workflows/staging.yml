@@ -175,7 +175,7 @@ jobs:
         run: npm run build:h5
 
       - name: 📂 打包结果压缩
-        uses: Lauweal/archiver-action@v1.0.0
+        uses: Lauweal/archiver-action@v1.0.4
         id: build
         with:
           type: zip
