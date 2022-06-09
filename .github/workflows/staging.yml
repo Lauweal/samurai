@@ -45,7 +45,7 @@ jobs:
         run: npm install --force
 
       - name: 🚀 从腾讯云下载环境变量
-        uses: Lauweal/tencent-cos-action@v1.0.4
+        uses: Lauweal/tencent-cos-action@v1.0.5
         with:
           type: 'download'
           secret_id: ${{ secrets.SECRET_ID }}
@@ -111,7 +111,7 @@ jobs:
         run: npm run build:server
 
       - name: 🚀 从腾讯云下载待上传服务器的环境变量
-        uses: Lauweal/tencent-cos-action@v1.0.4
+        uses: Lauweal/tencent-cos-action@v1.0.5
         with:
           type: 'download'
           secret_id: ${{ secrets.SECRET_ID }}
@@ -184,7 +184,8 @@ jobs:
           output: packages/h5
 
       - name: 🚀 压缩包推送腾讯云
-        uses: Lauweal/tencent-cos-action@v1.0.0
+        uses: Lauweal/tencent-cos-action@v1.0.5
+        id: upload
         with:
           secret_id: ${{ secrets.SECRET_ID }}
           secret_key: ${{ secrets.SECRET_KEY }}
@@ -193,3 +194,11 @@ jobs:
           local_path: ${{ steps.build.outputs.path }}
           remote_path: 'packages/h5/'
           clean: true
+
+      - name: 💬 发送成功通知
+        uses: slackapi/slack-github-action@v1.17.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        with:
+          channel-id: C03DY3QTBTQ
+          slack-message: '【发布】h5: ${{ steps.preview.outputs.path }}'
