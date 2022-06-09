@@ -184,7 +184,7 @@ jobs:
           output: packages/h5
 
       - name: 🚀 压缩包推送腾讯云
-        uses: Lauweal/tencent-cos-action@v1.0.5
+        uses: Lauweal/tencent-cos-action@v1.0.6
         id: upload
         with:
           secret_id: ${{ secrets.SECRET_ID }}
@@ -201,4 +201,4 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           channel-id: C03DY3QTBTQ
-          slack-message: '【发布】h5: ${{ steps.preview.outputs.path }}'
+          slack-message: '【发布】h5: ${{ steps.upload.outputs.path }}'
