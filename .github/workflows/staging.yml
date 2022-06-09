@@ -184,7 +184,7 @@ jobs:
           output: packages/h5
 
       - name: 🚀 压缩包推送腾讯云
-        uses: Lauweal/tencent-cos-action@v1.0.6
+        uses: Lauweal/tencent-cos-action@v1.0.0
         id: upload
         with:
           secret_id: ${{ secrets.SECRET_ID }}
